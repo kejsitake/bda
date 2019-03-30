@@ -1,6 +1,7 @@
 Initial documentation for de-anonymizing programmers from executable binaries.
+Original repository: https://github.com/calaylin/bda
 
-For details see the paper: https://www.princeton.edu/~aylinc/papers/caliskan_when.pdf 
+For details see the paper: https://www.cs.drexel.edu/~greenie/caliskan-islam_when.pdf
 
 Please cite: (bibtex entry)
 @inproceedings{caliskan2018coding,
@@ -19,7 +20,7 @@ Requirements:
 	∗	optional
 
 
-Take binaries or if you have source code compile them (CompileCode.java).
+Take binaries or if you have source code compile them.
 1.	Preprocess the binary: 
       1.	Disassemble, 
               1.	BinaryDisassemble.java		
@@ -43,3 +44,6 @@ Take binaries or if you have source code compile them (CompileCode.java).
 3.	Apply information gain criterion to use to highly effective features. 
       1.	Extract features high in information gain.
               1.	AuthorClassificationBasic.java 
+	      
+	      
+**To compile the project run the Makefile included.
