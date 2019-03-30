@@ -1,0 +1,85 @@
+===
+FunctionId: 56
+FunctionName: init_proc
+Features (list): [u'int', u'int', u'int', u'frame_dummy', u'_do_global_ctors_aux', u'__gmon_start__']
+===
+===
+FunctionId: 105
+FunctionName: deregister_tm_clones
+Features (list): []
+===
+===
+FunctionId: 113
+FunctionName: register_tm_clones
+Features (list): []
+===
+===
+FunctionId: 121
+FunctionName: _do_global_dtors_aux
+Features (list): [u'int', u'int', u'deregister_tm_clones']
+===
+===
+FunctionId: 213
+FunctionName: frame_dummy
+Features (list): [u'register_tm_clones']
+===
+===
+FunctionId: 225
+FunctionName: check
+Features (list): [u'int', u'int', u'int']
+===
+===
+FunctionId: 278
+FunctionName: Solved
+Features (list): [u'int', u'int', u'int', u'int', u'int', u'int', u'int', u'int', u'printf', u'check']
+===
+===
+FunctionId: 547
+FunctionName: main
+Features (list): [u'int', u'const char * *', u'const char * *', u'signed int', u'signed int', u'freopen', u'freopen', u'scanf', u'printf', u'Solved']
+===
+===
+FunctionId: 644
+FunctionName: __static_initialization_and_destruction_0
+Features (list): [u'int', u'int', u'int', u'std :: ios_base :: Init :: Init', u'__cxa_atexit']
+===
+===
+FunctionId: 710
+FunctionName: GLOBAL__sub_I_wNaomi
+Features (list): [u'__static_initialization_and_destruction_0']
+===
+===
+FunctionId: 726
+FunctionName: std :: __lg
+Features (list): [u'int']
+===
+===
+FunctionId: 831
+FunctionName: _S_base
+Features (list): [u'int']
+===
+===
+FunctionId: 862
+FunctionName: _libc_csu_fini
+Features (list): []
+===
+===
+FunctionId: 869
+FunctionName: _libc_csu_init
+Features (list): [u'init_proc']
+===
+===
+FunctionId: 880
+FunctionName: _i686_get_pc_thunk_bx
+Features (list): []
+===
+===
+FunctionId: 887
+FunctionName: _do_global_ctors_aux
+Features (list): [u'int', u'int', u'int ( * * v2 )', u'__cdecl * v3', u'int', u'int', u'v3']
+===
+===
+FunctionId: 1017
+FunctionName: term_proc
+Features (list): [u'_do_global_dtors_aux']
+===

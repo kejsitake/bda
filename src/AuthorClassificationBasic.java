@@ -15,6 +15,7 @@ import weka.filters.unsupervised.attribute.Remove;
 import weka.filters.unsupervised.instance.RemoveRange;
 import weka.filters.unsupervised.instance.RemoveWithValues;
 
+import java.io.*;
 import java.io.BufferedWriter;
 import java.io.FileReader;
 import java.io.FileWriter;
@@ -22,9 +23,43 @@ import java.util.*;
 
 public class AuthorClassificationBasic {
 
+	public static final String configPath = "config/binary_project.conf";
+        public static String testFolder;  
+        public static String featureFile;
+	public static String IG_featureFile;    
+	public static void readConfig() throws IOException {
+                //ClassLoader classLoader = FeatureCalculators.class.getClass().getClassLoader();
+                File file = new File(configPath);
+                System.out.println(file.getAbsolutePath());
+                //System.out.println(classLoader.getResource(configPath));
+                BufferedReader reader = new BufferedReader(new InputStreamReader(new FileInputStream(file)));
+                //BufferedReader reader = new BufferedReader(new InputStreamReader(classLoader.getResourceAsStream(configPath)));
+                String line = reader.readLine();
+                String parts[];
+                while(line != null) {
+                        parts = line.split(" = ", 2);
+                        switch(parts[0]) {
+                                case "testFolder":
+                                        testFolder = parts[1];
+                                        break;
+				case "featureFile":
+                                        featureFile = parts[1];
+                                        break;
+				case "IG_featureFile":
+                                        IG_featureFile = parts[1];
+                                        break;
+                                default:
+                                        //System.err.println("Invalid option: " + parts[0]);
+                                        break;
+                        }
+                        line = reader.readLine();
+                }
+                reader.close();
+            }
 
 	public static void main(String[] args) throws Exception 
 	{
+		readConfig();
 		double accuracy=0;
 		int endRelax = 10;
 		int numberFiles=9;
@@ -33,11 +68,10 @@ public class AuthorClassificationBasic {
 		double total =0;
 		double average =0;
 
-		String fileName  ="/Users/Aylin/Desktop/Princeton/BAA//100authors_relaxed.txt";
+		String fileName  =  testFolder+"//10authors_relaxed.txt";
 		
 		
-		String arffFile ="/Users/Aylin/Desktop/Princeton/BAA/arffs/"
-				+ "100authors/100fullNoOptimization_SCAAbinaries_bjoern_edgesTF_cfg_ndisasm_ready.arff";
+		String arffFile = featureFile;
 		
 			  Util.writeFile(numberFiles+"FilesPerAuthor: \n",fileName, true);	
 			  for(int relaxPar = 1; relaxPar<=endRelax; relaxPar++){
@@ -53,9 +87,9 @@ public class AuthorClassificationBasic {
 		Instances data = new Instances(new FileReader(arffFile));
 		data.setClassIndex(data.numAttributes() - 1);
 
-/*		//remove the instanceID
-	 //   data.deleteAttributeAt(0);
-		System.out.println("hi1");
+		//remove the instanceID
+	    data.deleteAttributeAt(0);
+/*		System.out.println("hi1");
 		AttributeStats stats = data.attributeStats(data.classIndex());
 		int[] attStats = stats.nominalCounts;
 		System.out.println(stats.toString());
@@ -76,13 +110,13 @@ public class AuthorClassificationBasic {
 		//do not stratify if you are going to remove instances for training and testing
 	     data.stratify(foldNumber);
 	     //be careful about this for removing instanceID only
-	 	 //filteredData.deleteAttributeAt(0);
-
-	/* BufferedWriter writer = new BufferedWriter(new FileWriter("/mnt/data_bsd/repos_ready.arff"));
+	 //	 filteredData.deleteAttributeAt(0);
+/*
+	 BufferedWriter writer = new BufferedWriter(new FileWriter("/home/kejsi/repos_ready.arff"));
 		 writer.write(data.toString());
 		 writer.flush();
-		 writer.close();*/
-		
+		 writer.close();
+*/		
 		//Start information gain that selects up to n features (-1 for unlimited)
 		int n = -1; // number of features to select 
 	    AttributeSelection attributeSelection = new  AttributeSelection(); 
@@ -97,10 +131,10 @@ public class AuthorClassificationBasic {
 	     attributeSelection.setSearch(ranker); 
 	     attributeSelection.setInputFormat(data); 
 	     data = Filter.useFilter(data, attributeSelection); 
-/*	 	 BufferedWriter writer = new BufferedWriter(new FileWriter("/mnt/data_bsd/repos_ready.arff"));
+	 	 BufferedWriter writer = new BufferedWriter(new FileWriter(IG_featureFile));
 		 writer.write(data.toString());
 		 writer.flush();
-		 writer.close();*/
+		 writer.close();
 
 		   
 		 

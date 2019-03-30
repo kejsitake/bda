@@ -15,7 +15,7 @@ public class RelaxedEvaluation extends Evaluation {
 
 	/**
 	 * Initializes all the counters for the evaluation. 
-	 * Use <code>useNoPriors()</code> if the dataset is the test set and you
+	 * Use <code>useNoPriors()</code> if the dataset2 is the test set and you
 	 * can't initialize with the priors from the training set via 
 	 * <code>setPriors(Instances)</code>.
 	 *
@@ -33,7 +33,7 @@ public class RelaxedEvaluation extends Evaluation {
 	/**
 	 * Initializes all the counters for the evaluation and also takes a
 	 * cost matrix as parameter.
-	 * Use <code>useNoPriors()</code> if the dataset is the test set and you
+	 * Use <code>useNoPriors()</code> if the dataset2 is the test set and you
 	 * can't initialize with the priors from the training set via 
 	 * <code>setPriors(Instances)</code>.
 	 *

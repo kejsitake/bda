@@ -1,5 +1,5 @@
 import java.io.BufferedReader;
-import java.io.File;
+import java.io.*;
 import java.io.IOException;
 import java.io.InputStreamReader;
 import java.io.PrintWriter;
@@ -13,11 +13,47 @@ import org.apache.commons.io.FilenameUtils;
 
 public class bjoernDisassemble {
 	
+	public static final String configPath = "config/binary_project.conf";
+        public static String testFolder;  
+	public static String bjoernJar;  
+	public static String bjoern_radareFolder;
+	public static String localBin;    
+        public static void readConfig() throws IOException {
+                //ClassLoader classLoader = FeatureCalculators.class.getClass().getClassLoader();
+                File file = new File(configPath);
+                System.out.println(file.getAbsolutePath());
+                //System.out.println(classLoader.getResource(configPath));
+                BufferedReader reader = new BufferedReader(new InputStreamReader(new FileInputStream(file)));
+                //BufferedReader reader = new BufferedReader(new InputStreamReader(classLoader.getResourceAsStream(configPath)));
+                String line = reader.readLine();
+                String parts[];
+                while(line != null) {
+                        parts = line.split(" = ", 2);
+                        switch(parts[0]) {
+                                case "testFolder":
+                                        testFolder = parts[1];
+                                        break;
+                                case "bjoernJar":
+                                        bjoernJar = parts[1];
+                                        break;
+				case "bjoern-radare":
+                                        bjoern_radareFolder = parts[1];
+                                        break;
+				 case "localBin":
+                                        localBin = parts[1];
+                                        break;
+				default:
+                                        //System.err.println("Invalid option: " + parts[0]);
+                                        break;
+                        }
+                        line = reader.readLine();
+                }
+                reader.close();
+            }
 
 	public static void main(String[] args) throws IOException, InterruptedException, ScriptException{
-		
-		String folderToProcess ="/Users/Aylin/Desktop/Princeton/"
-				+ "BAA/datasets/c++/optimizations/L0_150authors/";
+	  	readConfig();	
+		String folderToProcess = testFolder;
 		
 		List binary_paths = Util.listBinaryFiles(folderToProcess);
 		for(int i=0; i< binary_paths.size(); i++){
@@ -46,19 +82,19 @@ public class bjoernDisassemble {
 
 
 			 String bjoern_radare_tmp=  "#!/bin/sh" +"\n"+
-			 "export PATH=$PATH:/usr/local/bin/ \n"+
+			 "export PATH=$PATH:" + localBin +" \n"+
 					 "java -cp "
-		    	   		+ "/Users/Aylin/git/bjoern-radare/bin/bjoern.jar:/usr/local/bin/ "
-		    	   		+ "exporters.radare.RadareExporterMain "
+		    	   		+ bjoernJar.trim() + ":" + localBin
+		    	   		+ " exporters.radare.RadareExporterMain "
 		    	   		+ filePath+" "+ " -outdir "+outdir +"\n";
 
 			
-			 PrintWriter writer = new PrintWriter("/Users/Aylin/git/bjoern-radare/bjoern-radare2.sh");
+			 PrintWriter writer = new PrintWriter( bjoern_radareFolder.trim() + "/bjoern-radare2.sh");
 			 writer.println(bjoern_radare_tmp);
 			 writer.close();
 
 			 Process fileProcess = run.exec(new String[]{"/bin/sh", "-c",
-					  "chmod 777 /Users/Aylin/git/bjoern-radare/bjoern-radare2.sh \n"
+					  "chmod 777 "+ bjoern_radareFolder.trim() + "/bjoern-radare2.sh \n"
 					 });
 		  
 				       fileProcess.waitFor();
@@ -69,8 +105,8 @@ public class bjoernDisassemble {
 		
 
 			 Process runScript = run.exec(new String[]{"/bin/bash", "-c",
-				"cd /Users/Aylin/git/bjoern-radare/ \n"
-			    +"/bin/bash /Users/Aylin/git/bjoern-radare/bjoern-radare2.sh "
+				"cd " + bjoern_radareFolder+ "  \n"
+			    +"/bin/bash "+ bjoern_radareFolder.trim() + "/bjoern-radare2.sh "
 			 });
 			 System.out.println(filename +": Waiting for process to finish.");
 			

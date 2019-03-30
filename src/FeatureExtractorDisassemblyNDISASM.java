@@ -1,3 +1,4 @@
+
 import java.io.BufferedReader;
 import java.io.File;
 import java.io.FileReader;
@@ -25,11 +26,9 @@ public class FeatureExtractorDisassemblyNDISASM {
 	public static void main(String[] args) throws IOException{
 		
 	
-		String test_dir ="/Users/Aylin/Desktop/Princeton/"
-				+ "BAA/datasets/c++/optimizations/L1_150authors/23nigam/";
+		String test_dir ="/home/ec2-user/bda/Aylins-mini-dataset2/Carber/";
 				       		
-		String output_filename = "/Users/Aylin/Desktop/Princeton/"
-				+ "BAA/datasets/c++/optimizations/L1_150authors_ndisasm.arff" ;
+		String output_filename = "/home/ec2-user/1author_ndisasm.arff" ;
 		List test_binary_paths = Util.listDisFiles(test_dir);
 
 		String text = "";
@@ -66,6 +65,7 @@ public class FeatureExtractorDisassemblyNDISASM {
 	           	Util.writeFile("@attribute 'NDISASMDisassemblyInstructionBigrams "+i+"=["+disassemblyBigrams[i]+"]' numeric"+"\n", output_filename, true);
 		       }
 
+
 	     	//get the instruction bigrams in NDISASM disassembly and write the instruction bigram features
 			String[] disassemblyTrigrams =getNDISASMDisassemblyInstructionTrigrams(test_dir);
 			for (int i=0; i<disassemblyTrigrams.length; i++)	   	
@@ -99,7 +99,7 @@ public class FeatureExtractorDisassemblyNDISASM {
 				   int authorCount = words.length;
 				   if (i+1==test_binary_paths.size()){
 				   for (int j=0; j< authorCount; j++){
-					   {System.out.println(words[j]);
+					   {//System.out.println(words[j]);
 						if(j+1 == authorCount)
 						{
 					   Util.writeFile(words[j]+"}"+"\n\n",output_filename, true);
@@ -148,6 +148,7 @@ public class FeatureExtractorDisassemblyNDISASM {
 			    float[] instructionBigramCount = getNDISASMDisassemblyInstructionBigramsTF(disText, disassemblyBigrams);
 			    for (int j=0; j<instructionBigramCount.length; j++)
 				{Util.writeFile(instructionBigramCount[j] +",", output_filename, true);}
+
 			   	
 				 //get count of each NDISASMDisassemblyInstructionTrigram in NDISASM disassembly 
 			    float[] instructionTrigramCount = getNDISASMDisassemblyInstructionTrigramsTF(disText, disassemblyTrigrams);
@@ -198,7 +199,8 @@ public class FeatureExtractorDisassemblyNDISASM {
  	    for(int i=0; i< test_file_paths.size(); i++){
  	    	filePath = test_file_paths.get(i).toString();  
 			String[] arr;
-			String[] toAdd;
+			//ArrayList <String> toAdd = new ArrayList <String>();
+			String [] toAdd;
 			BufferedReader br = new BufferedReader(new FileReader(filePath));
 			String line;
 				
@@ -209,21 +211,26 @@ public class FeatureExtractorDisassemblyNDISASM {
 					if (arr.length > 2){
 /*					System.out.println("Redundant " + arr[0] 
 		                                 + " , needed " + arr[2] 
-		                            );*/	
-			   		arr[2]=	arr[2].replaceAll("\\\"", " ");
-			//		arr[2]=	arr[2].replaceAll(",", " ");
-			//		arr[2]=	arr[2].replaceAll("\\+", " ");
-			//		arr[2]=	arr[2].replaceAll("\\-", " ");
+		                            );	*/
+			   	//	arr[2]=	arr[2].replaceAll("\\\"" , " ");
+				//	arr[2]= arr[2].replaceAll("\\[", "");
+				//	arr[2]= arr[2].replaceAll("\\]", "");
+					arr[2]=	arr[2].replaceAll(",", " ");
+					arr[2]=	arr[2].replaceAll("\\+", " ");
+					arr[2]=	arr[2].replaceAll("\\-", " ");
+					arr[2]= arr[2].replaceAll("\\*", " ");
+					arr[2]= arr[2].replaceAll("\\:", " ");
 					arr[2]=	arr[2].replaceAll("0[xX][0-9a-fA-F]+", "hexadecimal");
 					arr[2]=	arr[2].replaceAll("\\d+", "number");
 					arr[2]=	arr[2].replaceAll("\\s+", " ");
 					//System.out.println("line processed: "+arr[2]);
-					toAdd = arr[2].split("\\s+");
+					toAdd = arr[2].split("\\s");
+
 					for(int i1 =0; i1< toAdd.length; i1++)
 						{
 						uniGrams.add(toAdd[i1]);
 						//System.out.println("unigram "+i1+": "+toAdd[i1]);
-		            	}	
+						}						
 					}
 				}	
 			br.close();
@@ -282,10 +289,14 @@ public class FeatureExtractorDisassemblyNDISASM {
     /*					System.out.println("Redundant " + arr[0] 
     		                                 + " , needed " + arr[2] 
     		                            );*/	
-    			   	arr[2]=	arr[2].replaceAll("\\\"", " ");
-    		//		arr[2]=	arr[2].replaceAll(",", " ");
-    		//		arr[2]=	arr[2].replaceAll("\\+", " ");
+    			   		arr[2]=	arr[2].replaceAll("\\\"", " ");
+    					arr[2]=	arr[2].replaceAll(",", " ");
+			//		arr[2]= arr[2].replaceAll("\\[", "");
+			//		arr[2]= arr[2].replaceAll("\\]", "");
+    			//		arr[2]=	arr[2].replaceAll("\\+", " ");
    			//		arr[2]=	arr[2].replaceAll("\\-", " ");
+			//		arr[2]= arr[2].replaceAll("\\*", " ");
+			//		arr[2]= arr[2].replaceAll("\\:", " ");
    					arr[2]=	arr[2].replaceAll("0[xX][0-9a-fA-F]+", "hexadecimal");
    					arr[2]=	arr[2].replaceAll("\\d+", "number");
    					arr[2]=	arr[2].replaceAll("\\s+", " ");
@@ -350,6 +361,13 @@ public class FeatureExtractorDisassemblyNDISASM {
     		                                 + " , needed " + arr[2] 
     		                            );*/	
     			   	arr[2]=	arr[2].replaceAll("\\\"", " ");
+				 arr[2]= arr[2].replaceAll(",", " ");
+             //                   arr[2]= arr[2].replaceAll("\\[", "");
+               //                 arr[2]= arr[2].replaceAll("\\]", "");
+                 //               arr[2]= arr[2].replaceAll("\\+", " ");
+                 //                       arr[2]= arr[2].replaceAll("\\-", " ");
+		//			arr[2]= arr[2].replaceAll("\\*", " ");
+		//			arr[2]= arr[2].replaceAll("\\:", " ");
    					arr[2]=	arr[2].replaceAll("0[xX][0-9a-fA-F]+", "hexadecimal");
    					arr[2]=	arr[2].replaceAll("\\d+", "number");
    					arr[2]=	arr[2].replaceAll("\\s+", " ");

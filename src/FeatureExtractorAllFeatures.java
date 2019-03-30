@@ -1,3 +1,4 @@
+import java.io.*;
 import java.io.File;
 import java.io.IOException;
 import java.util.HashSet;
@@ -6,12 +7,46 @@ import java.util.Set;
 
 public class FeatureExtractorAllFeatures {
 
+	public static final String configPath = "config/binary_project.conf";
+        public static String testFolder;  
+        public static String featureFile;
+        public static String IG_featureFile;    
+        public static void readConfig() throws IOException {
+                //ClassLoader classLoader = FeatureCalculators.class.getClass().getClassLoader();
+                File file = new File(configPath);
+                System.out.println(file.getAbsolutePath());
+                //System.out.println(classLoader.getResource(configPath));
+                BufferedReader reader = new BufferedReader(new InputStreamReader(new FileInputStream(file)));
+                //BufferedReader reader = new BufferedReader(new InputStreamReader(classLoader.getResourceAsStream(configPath)));
+                String line = reader.readLine();
+                String parts[];
+                while(line != null) {
+                        parts = line.split(" = ", 2);
+                        switch(parts[0]) {
+                                case "testFolder":
+                                        testFolder = parts[1];
+                                        break;
+                                case "featureFile":
+                                        featureFile = parts[1];
+                                        break;
+                                case "IG_featureFile":
+                                        IG_featureFile = parts[1];
+                                        break;
+                                default:
+                                        //System.err.println("Invalid option: " + parts[0]);
+                                        break;
+                        }
+                        line = reader.readLine();
+                }
+                reader.close();
+            }
+
 	public static void main(String[] args) throws IOException, InterruptedException{
 		
-	
-		String test_dir ="/Users/Aylin/Desktop/test/";
+		readConfig();	
+		String test_dir = testFolder;
 		       		
-		String output_filename = "/Users/Aylin/Desktop/testAllFeatures.arff" ;
+		String output_filename = featureFile ;
 
 		List test_binary_paths = Util.listBinaryFiles(test_dir);
 
@@ -31,6 +66,7 @@ public class FeatureExtractorAllFeatures {
 				}
 			}
 
+		   	
 		   	//BJOERN FEATURES START
 		   	// Related files:
 		     // 1645485_1480492_a9108_bjoernDisassembly/nodes.csv
@@ -49,9 +85,9 @@ public class FeatureExtractorAllFeatures {
 			   	Util.writeFile("@attribute 'BjoernCFGGraphmlNodeBigrams "+i+"=["+bjoernCFGNodeBigrams[i].replace("'", "apostrophesymbol")+"]' numeric"+ "\n", output_filename, true);
 				       }
 		   	
-			//		System.out.println("done with cfgUnigrams");
+				System.out.println("done with cfgUnigrams");
 
-			//		Thread.sleep(10000000);
+				//Thread.sleep(10000000);
 		   
 		   	//DISASSEMBLY INSTRUCTION UNIGRAMS
 			//CFG NODE UNIGRAMS - REPR
@@ -100,45 +136,9 @@ public class FeatureExtractorAllFeatures {
 			 // Related files:
 		     // 1645485_1480492_a9108_bjoernDisassembly/nodes.csv
 			 // 1645485_1480492_a9108_bjoernDisassembly/1645485_1480492_a9108CFG/*.graphml
-
+			 
 		    	
-	     	// SNOWMAN CFG FEATURES START - Related files: (1842485_1486492_a9108_SnowmanDecompiled.dot)
-	    	//FeatureExtractorSnowmanCFG		     	
-		   	//get the Unigrams in the CFG and write the unigram features
-		       String[] cfgSnowmanUnigrams =FeatureExtractorSnowmanCFG.getCFGUnigrams(test_dir);
-		    	for (int i=0; i<cfgSnowmanUnigrams.length; i++)	   	
-		       {  	
-		           Util.writeFile("@attribute 'cfgSnowmanUnigrams "+i+"=["+cfgSnowmanUnigrams[i].replace("'", "apostrophesymbol")+"]' numeric"+"\n", output_filename, true);}
-			   
-		    	
-		    	//the slowest feature
-/*			   	// write the unigram tfidf features	   	
-			    	for (int i=0; i<cfgSnowmanUnigrams.length; i++)	   	
-			       {  	
-			            	Util.writeFile("@attribute 'cfgSnowmanUnigramsTFIDF "+i+"=["+cfgSnowmanUnigrams[i]+"]' numeric"+"\n", output_filename, true);}
-				   */
-		    	
-		    	  String[] cfgSnowmanNodeLastLine =FeatureExtractorSnowmanCFG.getCFGNodeLine(test_dir);
-			    	for (int i=0; i<cfgSnowmanNodeLastLine.length; i++)	   	
-			       {  	
-			            Util.writeFile("@attribute 'cfgSnowmanNodeLastLine "+i+"=["+cfgSnowmanNodeLastLine[i].replace("'", "apostrophesymbol")+"]' numeric"+"\n", output_filename, true);}			
-			    	
-		    	//get the bigrams in the CFG and write the bigram features
-		    	String[] cfgSnowmanBigrams =FeatureExtractorSnowmanCFG.getCFGBigrams(test_dir);
-		     	for (int i=0; i<cfgSnowmanBigrams.length; i++)	   	
-			       {  
-		     				String temp= cfgSnowmanBigrams[i].replace("'", "apostrophesymbol");
-			            	Util.writeFile("@attribute 'cfgSnowmanBigrams "+i+"=["+temp.replace("\n", " ")+"]' numeric"+"\n", output_filename, true);}
-	
-		    	//get the bigrams in the CFG and write the bigram features
-		    	String[] cfgSnowmanLineBigrams =FeatureExtractorSnowmanCFG.getCFGNodeLineBigram(test_dir);
-		     	for (int i=0; i<cfgSnowmanLineBigrams.length; i++)	   	
-			       {  		
-		     				String temp= cfgSnowmanLineBigrams[i].replace("'", "apostrophesymbol");
-			            	Util.writeFile("@attribute 'cfgSnowmanLineBigrams "+i+"=["+temp.replace("\n", " ")+"]' numeric"+"\n", output_filename, true);}		    			    	
-				// SNOWMAN CFG FEATURES END	- Related files: (1842485_1486492_a9108_SnowmanDecompiled.dot)
-		    	
-		    	
+				
 
 			   	// NDISASM FEATURES START - DISASSEMBLY - Related files: (1842485_1486492_a9108.dis)
 		    	//get the instruction unigrams in NDISASM disassembly and write the instruction unigram features
@@ -190,13 +190,13 @@ public class FeatureExtractorAllFeatures {
 			    //uniqueDepASTTypes contain user input, such as function and variable names
 			    
 			//Use the following for syntactic inner nodes and code leaves (remember to change astlabel.py accordingly!
-			 
+				/*			 
 			  String[] wordUnigramsCPP =FeatureExtractorDecompiledCode.getWordUnigramsDecompiledCode(test_dir, "cpp");
 			  for (int i=0; i<wordUnigramsCPP.length; i++)	   	
 		     {  	
 		     Util.writeFile("@attribute 'wordUnigramsCPP "+i+"=["+wordUnigramsCPP[i].replace("'", "apostrophesymbol")+"]' numeric"+"\n", output_filename, true);
 		     }	
- 
+				*/
 			  String[] ASTNodeBigrams = BigramExtractor.getASTNodeBigrams(test_dir);
 			  for (int i=0; i<ASTNodeBigrams.length; i++)		
 		   	  {  	
@@ -249,11 +249,13 @@ public class FeatureExtractorAllFeatures {
 		     	
 		    File authorFileName = null;
 			//Writing the classes (authorname)
-			Util.writeFile("@attribute 'authorName_original' {",output_filename, true);
+			//System.out.println(new File(output_filename).getParentFile().getParentFile().getName());
+			Util.writeFile("@attribute 'authorName_original' {", output_filename, true);
 			for(int i=0; i< test_binary_paths.size(); i++){
 				authorFileName= new File(test_binary_paths.get(i).toString());
 				String authorName= authorFileName.getParentFile().getName() +
 						"_"+authorFileName.getParentFile().getParentFile().getName() ;
+				//String authorName= authorFileName.g.getParentFile().getName() ;
 				text = text.concat(authorName + ",");  
 				String[] words = text.split( ",");
 				Set<String> uniqueWords = new HashSet<String>();
@@ -264,12 +266,15 @@ public class FeatureExtractorAllFeatures {
 				int authorCount = words.length;
 				if (i+1==test_binary_paths.size()){
 				   for (int j=0; j< authorCount; j++){
-					   {System.out.println(words[j]);
+					   {
+						System.out.println(words[j]);
 						if(j+1 == authorCount){
 							Util.writeFile(words[j]+"}"+"\n\n",output_filename, true);
+							//Util.writeFile(words[j]+"}","\n\n", true);
 							}
 						else{
 						Util.writeFile(words[j]+","+"",output_filename, true);
+						//Util.writeFile(words[j],",", true);
 							}
 						}
 				   }
@@ -279,7 +284,7 @@ public class FeatureExtractorAllFeatures {
 			Util.writeFile("@data"+"\n", output_filename, true);	
 			//Finished defining the attributes
 			//starting to write the feature vectors
-			
+			//System.out.println("got here");
 			
 			//EXTRACT LABELED FEATURES FROM CORRESPONDING FEATURE DATA SOURCES
 		   	for(int i=0; i< test_binary_paths.size(); i++){
@@ -301,7 +306,8 @@ public class FeatureExtractorAllFeatures {
 				 // 1645485_1480492_a9108_bjoernDisassembly/1645485_1480492_a9108CFG/*.graphml
 
 				//GETTING CFG NODE UNIGRAMS
-				//get count of each cfg node unigram in CFGBjoern 
+				//get count of each cfg node unigram in CFGBjoern
+				System.out.println(bjoernCFGNodeUnigrams);
 				float[] cfgNodeUniCount = FeatureExtractor2016Bjoern.getBjoernCFGGraphmlNodeUnigramsTF(authorFileName , bjoernCFGNodeUnigrams);			   
 			    for (int j=0; j<cfgNodeUniCount.length; j++){
 				Util.writeFile(cfgNodeUniCount[j] +",", output_filename, true);
@@ -344,40 +350,6 @@ public class FeatureExtractorAllFeatures {
 				 // 1645485_1480492_a9108_bjoernDisassembly/1645485_1480492_a9108CFG/*.graphml
 
 			    
-			   	// SNOWMAN CFG FEATURES START - Related files: (1842485_1486492_a9108_SnowmanDecompiled.dot)
-				String featureTextSnowmanCFG = Util.readFile(authorFileName.getParentFile()
-						+ File.separator + authorFileName.getName()+"_SnowmanDecompiled.dot");		     	
-			    //get count of each wordUnigram in Snowman CFG 
-				
-			    float[] wordUniCount1 = FeatureExtractorSnowmanCFG.getCFGUnigramTF(featureTextSnowmanCFG, cfgSnowmanUnigrams);
-			    for (int j=0; j<wordUniCount1.length; j++)
-				{Util.writeFile(wordUniCount1[j] +",", output_filename, true);}	
-			    
-			    //tfidf is the slowest feature so far
-/*			    
- * 				String [] cfgSnowmanUnigramsTFIDF= cfgSnowmanUnigrams;
- * 				float[] uniTFIDF = FeatureExtractorSnowmanCFG.getCFGUnigramsTFIDF(featureTextSnowmanCFG, test_dir, cfgSnowmanUnigrams);
-			    for (int j=0; j<uniTFIDF.length; j++)
-				{Util.writeFile(uniTFIDF[j] +",", output_filename, true);}	*/
-			    
-			    //get count of each line unigram in Snowman CFG	 
-			    float[] cfgNodeLastLineCount = FeatureExtractorSnowmanCFG.getCFGNodeLineTF(featureTextSnowmanCFG, cfgSnowmanNodeLastLine);
-			    for (int j=0; j<cfgNodeLastLineCount.length; j++)
-				{Util.writeFile(cfgNodeLastLineCount[j] +",", output_filename, true);}	
-
-
-			    
-			    //get count of each bigram in Snowman CFG	 
-			    float[] wordBigramCount1 = FeatureExtractorSnowmanCFG.getCFGBigramsTF(featureTextSnowmanCFG, cfgSnowmanBigrams);
-			    for (int j=0; j<wordBigramCount1.length; j++)
-				{Util.writeFile(wordBigramCount1[j] +",", output_filename, true);}
-			    
-			    //get count of each line bigram in Snowman CFG 	 
-			    float[] lineBigramSnowmanCount = FeatureExtractorSnowmanCFG.getCFGNodeLineBigramTF(featureTextSnowmanCFG, cfgSnowmanLineBigrams);
-			    for (int j=0; j<lineBigramSnowmanCount.length; j++)
-				{Util.writeFile(lineBigramSnowmanCount[j] +",", output_filename, true);}			   	
-			   // SNOWMAN CFG FEATURES END	- Related files: (1842485_1486492_a9108_SnowmanDecompiled.dot)
-
 				 // NDISASM FEATURES START - DISASSEMBLY - Related files: (1842485_1486492_a9108.dis)
 				String featureTextNDISASMDisassembly = Util.readFile(authorFileName.getParentFile()
 				+ File.separator + authorFileName.getName()+".dis");
@@ -420,11 +392,11 @@ public class FeatureExtractorAllFeatures {
 						+ File.separator + authorFileName.getName()+"_hexrays_decompiled.txt");
 			    	
 				
-			    //get count of each wordUnigram in C source file	 
+				/*			    //get count of each wordUnigram in C source file	 
 			    float[] wordUniCountCPP = FeatureExtractorDecompiledCode.getWordUnigramsDecompiledCodeTF(featureTextHexraysDecompiledCodeCPP, wordUnigramsCPP);
 			    for (int j=0; j<wordUniCountCPP.length; j++)
 				{Util.writeFile(wordUniCountCPP[j] +",", output_filename, true);}	
-				
+				*/
 			    //AST node bigrams
 				float[] bigramCount = BigramExtractor.getASTNodeBigramsTF(featureTextHexraysDecompiledCodeDEP, ASTNodeBigrams );
 				for (int j=0; j<ASTNodeBigrams.length; j++)
@@ -458,5 +430,5 @@ public class FeatureExtractorAllFeatures {
 			    			    			   
 				Util.writeFile(authorName+"\n", output_filename, true);
 		   	}
-	}		
+	}
 }

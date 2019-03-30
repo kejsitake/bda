@@ -1,0 +1,80 @@
+===
+FunctionId: 66
+FunctionName: init_proc
+Features (list): [u'int', u'int', u'int', u'frame_dummy', u'_do_global_ctors_aux', u'__gmon_start__']
+===
+===
+FunctionId: 115
+FunctionName: deregister_tm_clones
+Features (list): []
+===
+===
+FunctionId: 123
+FunctionName: register_tm_clones
+Features (list): []
+===
+===
+FunctionId: 131
+FunctionName: _do_global_dtors_aux
+Features (list): [u'int', u'int', u'deregister_tm_clones']
+===
+===
+FunctionId: 223
+FunctionName: frame_dummy
+Features (list): [u'register_tm_clones']
+===
+===
+FunctionId: 235
+FunctionName: init
+Features (list): [u'int', u'int', u'int', u'scanf', u'scanf', u'scanf']
+===
+===
+FunctionId: 349
+FunctionName: gao1
+Features (list): [u'double', u'int', u'int', u'printf', u'sqrt']
+===
+===
+FunctionId: 423
+FunctionName: gao2
+Features (list): [u'int', u'int', u'int', u'double', u'double', u'int', u'int', u'int', u'printf', u'sqrt']
+===
+===
+FunctionId: 588
+FunctionName: main
+Features (list): [u'int', u'const char * *', u'const char * *', u'int', u'int', u'int', u'freopen', u'freopen', u'scanf', u'printf', u'init', u'gao1', u'gao2']
+===
+===
+FunctionId: 721
+FunctionName: __static_initialization_and_destruction_0
+Features (list): [u'int', u'int', u'int', u'std :: ios_base :: Init :: Init', u'__cxa_atexit']
+===
+===
+FunctionId: 787
+FunctionName: GLOBAL__sub_I_t
+Features (list): [u'__static_initialization_and_destruction_0']
+===
+===
+FunctionId: 805
+FunctionName: _libc_csu_fini
+Features (list): []
+===
+===
+FunctionId: 812
+FunctionName: _libc_csu_init
+Features (list): [u'init_proc']
+===
+===
+FunctionId: 823
+FunctionName: _i686_get_pc_thunk_bx
+Features (list): []
+===
+===
+FunctionId: 830
+FunctionName: _do_global_ctors_aux
+Features (list): [u'int', u'int', u'int ( * * v2 )', u'__cdecl * v3', u'int', u'int', u'v3']
+===
+===
+FunctionId: 960
+FunctionName: term_proc
+Features (list): [u'_do_global_dtors_aux']
+===

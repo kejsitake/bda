@@ -1,3 +1,5 @@
+import java.io.*;
+import java.nio.file.Files;
 import java.io.BufferedReader;
 import java.io.File;
 import java.io.FileNotFoundException;
@@ -17,19 +19,37 @@ import javax.script.ScriptException;
 
 public class BinaryDisassemble {
 	
-
+	public static final String configPath = "config/binary_project.conf";
+    	public static String test_dir;  
+    	public static void readConfig() throws IOException {
+        	//ClassLoader classLoader = FeatureCalculators.class.getClass().getClassLoader();
+	        File file = new File(configPath);
+	        System.out.println(file.getAbsolutePath());
+	        //System.out.println(classLoader.getResource(configPath));
+	        BufferedReader reader = new BufferedReader(new InputStreamReader(new FileInputStream(file)));
+	        //BufferedReader reader = new BufferedReader(new InputStreamReader(classLoader.getResourceAsStream(configPath)));
+	        String line = reader.readLine();
+	        String parts[];
+	        while(line != null) {
+	                parts = line.split(" = ", 2);
+	                switch(parts[0]) {
+	                        case "testFolder":
+	                                test_dir = parts[1];
+	                                break;
+	                        default:
+	                                //System.err.println("Invalid option: " + parts[0]);
+	                                break;
+	                }
+	                line = reader.readLine();
+	        }
+	        reader.close();
+	    }
 	public static void main(String[] args) throws FileNotFoundException, IOException, ClassNotFoundException, InterruptedException, ScriptException {
-		   		
-		String test_dir ="/mnt/data_bsd/14FilesPerAuthor_2014_NOToptimized_hexraysSCAA2/";
-        	
-        	
-
-           	List test_file_paths = Util.listCFiles(test_dir);
+		readConfig();   		
+	      	List test_file_paths = Util.listCFiles(test_dir);
            	List test_binary_paths = Util.listBinaryFiles(test_dir);
            	List test_dis_paths = Util.listDisFiles(test_dir);
-	
-           	
-           	
+	         	           	
         	//delete all disassembled files
 /*           	for(int bin=0; bin< test_dis_paths.size(); bin++){
         		System.out.println(test_dis_paths.get(bin).toString());
@@ -42,8 +62,8 @@ public class BinaryDisassemble {
            	for(int bin=0; bin< test_binary_paths.size(); bin++){
         		System.out.println(test_binary_paths.get(bin).toString());
         		if(!(new File(test_binary_paths.get(bin).toString() + ".dis").exists())){
-        	//	disassembleBinaries(test_binary_paths.get(bin).toString(), "32");
-        		stripBinaries(test_binary_paths.get(bin).toString());	
+        		disassembleBinaries(test_binary_paths.get(bin).toString(), "32");
+        	//	stripBinaries(test_binary_paths.get(bin).toString());	
         		}
         			}
        	

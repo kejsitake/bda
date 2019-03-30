@@ -22,9 +22,9 @@ public class FeatureExtractor2016Bjoern {
 	public static void main(String[] args) throws IOException, InterruptedException{
 		
 	
-		String test_dir ="/Users/Aylin/Desktop/test/";
+		String test_dir ="/home/ec2-user/bda/Aylins-mini-dataset2/Carber/";
 		       		
-		String output_filename = "/Users/Aylin/Desktop/test2.arff" ;
+		String output_filename = "/home/ec2-user/1author_Bjoern.arff" ;
 
 		List test_binary_paths = Util.listBinaryFiles(test_dir);
 
@@ -63,9 +63,10 @@ public class FeatureExtractor2016Bjoern {
 		   	
 			//		System.out.println("done with cfgUnigrams");
 
+
 			//		Thread.sleep(10000000);
 		   
-		   	//DISASSEMBLY INSTRUCTION UNIGRAMS
+/*		   	//DISASSEMBLY INSTRUCTION UNIGRAMS
 			//get the instruction unigrams in bjoern disassembly and write the instruction unigram features
 			String[] bjoernDisassemblyUnigrams =getBjoernDisassemblyInstructionUnigrams(test_dir);
 			for (int i=0; i<bjoernDisassemblyUnigrams.length; i++){  
@@ -106,7 +107,7 @@ public class FeatureExtractor2016Bjoern {
 		    	Util.writeFile("@attribute 'disassemblyLineBigrams "+i+"=["+disassemblyLineBigrams[i].replace("'", "apostrophesymbol")+"]' numeric"+"\n", output_filename, true);
 		    	//	System.out.println("@attribute 'disassemblyLineBigrams "+i+"=["+disassemblyLineBigrams[i]+"]");
 		    	}		    	
-	
+*/	
 		     	
 		    File authorFileName = null;
 			//Writing the classes (authorname)
@@ -125,7 +126,7 @@ public class FeatureExtractor2016Bjoern {
 				int authorCount = words.length;
 				if (i+1==test_binary_paths.size()){
 				   for (int j=0; j< authorCount; j++){
-					   {System.out.println(words[j]);
+					   {//System.out.println(words[j]);
 						if(j+1 == authorCount){
 							Util.writeFile(words[j]+"}"+"\n\n",output_filename, true);
 							}
@@ -141,21 +142,25 @@ public class FeatureExtractor2016Bjoern {
 			//Finished defining the attributes
 			//starting to write the feature vectors
 			
-			
+			//	System.out.println( "Got here");
 			//EXTRACT LABELED FEATURES FROM CORRESPONDING FEATURE DATA SOURCES
 		   	for(int i=0; i< test_binary_paths.size(); i++){
+			    //  System.out.println( test_binary_paths[i]);
 				authorFileName= new File(test_binary_paths.get(i).toString());
+				
 				String authorName= authorFileName.getParentFile().getName() +
 						"_"+authorFileName.getParentFile().getParentFile().getName();
-				System.out.println(test_binary_paths.get(i));
+				//	System.out.println( test_binary_paths[i]);
+				System.out.println("Binary path:" +test_binary_paths.get(i));
 				System.out.println(authorName);
 				File fileCPPID = new File(test_binary_paths.get(i).toString());
 				String fileNameID = fileCPPID.getName() +
 						"_"+authorFileName.getParentFile().getParentFile().getName();
+				//System.out.println(fileCPPID);
 				Util.writeFile(fileNameID+",", output_filename, true);
 				String featureTextBjoernDisassembly = Util.readFile(authorFileName.getParentFile()
 				+ File.separator + fileCPPID.getName()+"_bjoernDisassembly"+ File.separator + "nodes.csv");
-
+				//System.out.println(featureTextBjoernDisassembly);
 				
 				
 				//GETTING CFG NODE UNIGRAMS
@@ -172,7 +177,7 @@ public class FeatureExtractor2016Bjoern {
 				Util.writeFile(cfgEdgeBigramCount[j] +",", output_filename, true);
 				}
 			    
-			    //get count of each instruction unigram in disassemblyBjoern 
+/*			    //get count of each instruction unigram in disassemblyBjoern 
 			    float[] wordUniCount = getBjoernDisassemblyInstructionUnigramsTF(featureTextBjoernDisassembly, bjoernDisassemblyUnigrams);
 			    for (int j=0; j<wordUniCount.length; j++)
 				{Util.writeFile(wordUniCount[j] +",", output_filename, true);}	
@@ -197,7 +202,7 @@ public class FeatureExtractor2016Bjoern {
 			    for (int j=0; j<lineBigramCount.length; j++)
 				{Util.writeFile(lineBigramCount[j] +",", output_filename, true);}
 			    
-			    
+*/			    
 				Util.writeFile(authorName+"\n", output_filename, true);
 		   	}
 	}
@@ -229,7 +234,10 @@ public class FeatureExtractor2016Bjoern {
 		    }*/
 			if (arr.length>4){
 			line = arr[4];
-			line =	line.replaceAll("\\\"", " ");	
+			line =	line.replaceAll("\\\"", " ");
+			line =  line.replaceAll("\\|", " ");
+			line =line.replaceAll("\\..+", " ");
+                        line =line.replaceAll("\\|", " ");       	
 			line =line.replaceAll("0[xX][0-9a-fA-F]+", "hexadecimal");
 			line =line.replaceAll("\\d+", "number");
 			line =line.replaceAll("\\s+", " ");	
@@ -290,7 +298,9 @@ public class FeatureExtractor2016Bjoern {
 //			ANR	"Root_134515265"	"Root"	"134515265"
 			if(arr.length>4){
 			line = arr[4];
-			line =	line.replaceAll("\\\"", " ");	
+			line =	line.replaceAll("\\\"", " ");
+			line =line.replaceAll("\\..+", " ");
+                        line =line.replaceAll("\\|", " ");    
 			line =line.replaceAll("0[xX][0-9a-fA-F]+", "hexadecimal");
 			line =line.replaceAll("\\d+", "number");
 			line =line.replaceAll("\\s+", " ");	
@@ -331,6 +341,8 @@ public class FeatureExtractor2016Bjoern {
 			line =line.replaceAll("\\\"", " ");	
 			line =line.replaceAll("0[xX][0-9a-fA-F]+", "hexadecimal");
 			line =line.replaceAll("\\d+", "number");
+			line =line.replaceAll("\\..+", " ");
+                        line =line.replaceAll("\\|", " ");    
 			line =line.replaceAll("\\s+", " ");	
 			newFeatureText = newFeatureText + line + " ";			
 			}
@@ -382,15 +394,33 @@ public class FeatureExtractor2016Bjoern {
 						arr = node.split("data key=",5);
 						node = arr[1];	
 						node = node.replaceAll("\\\"repr\\\">", "");	
+						node = node.replaceAll("\\|", " ");    
 						node = node.replaceAll("</data><", "");	
 					//	node = node.replaceAll("^[A-Fa-f0-9]+$", "hexadecimal");
+					//	node = node.replaceAll("\\+", " ");
+					//	node = node.replaceAll("\\-", " ");
+					//	node = node.replaceAll("\\*", " ");
+  					//       node = node.replaceAll("\\:", " ");
+					//	node = node.replaceAll("\\_", " ");    
+					//	node = node.replaceAll("\\[", " ");
+					//	node = node.replaceAll("\\]", " ");
+ 					//	node = node.replaceAll("\\(", " ");
+					//	node = node.replaceAll("\\)", " ");
+						node = node.replaceAll("\\,", " ");                     
 						node = node.replaceAll("0[xX][0-9a-fA-F]+", "hexadecimal");
 						node = node.replaceAll("\\d+", "number");
 						node =node.replaceAll("\\s+", " ");	
-					//	System.out.println("unigram: "+node);
-						
-						uniGrams.add(node.trim());
-					//	System.out.println(toAdd[i11]);
+						//System.out.println("unigram: "+node);
+						toAdd = node.split("\\s");
+                                    		    for(int i1 =0; i1< toAdd.length; i1++)
+                                                {                                                
+						uniGrams.add(toAdd[i1]);
+                                                //System.out.println("unigram "+i1+": "+toAdd[i1]);
+                                                }                                               
+                                        
+			
+				//		uniGrams.add(node.trim());
+				//		System.out.println(toAdd[i11]);
 		            				
 						}}
 						br2.close();
@@ -398,6 +428,8 @@ public class FeatureExtractor2016Bjoern {
 				br.close();			
  	    }	 	      
  	    		words =   uniGrams.toArray(new String[uniGrams.size()]);
+//			System.out.println("Words array: ");
+//			System.out.println(words.toString());	
 			    return words;		
 	}
 	
@@ -411,7 +443,7 @@ public class FeatureExtractor2016Bjoern {
     float[] tmp = new float[len];
     Arrays.fill(cfgNodeUniCount,0);
     Arrays.fill(tmp, 0);
-    
+    	System.out.println( binaryFileName);
 	//GETTING CFG NODE UNIGRAMS		
 	List graphmlCFGFiles = listBjoernCFGGraphmlFiles(binaryFileName.getParentFile()
 			+ File.separator + binaryFileName.getName()+"_bjoernDisassembly"+ 
@@ -430,7 +462,9 @@ public class FeatureExtractor2016Bjoern {
 	cfgNodeUniCount[i]=cfgNodeUniCount[i]+tmp[i];
 	tmp[i]= cfgNodeUniCount[i];		
 		}
-    }	
+    }
+		//System.out.println( "Got here78999");
+	//System.out.println(cfgNodeUniCount);
 	    return cfgNodeUniCount;
     }
 	
@@ -449,15 +483,18 @@ public class FeatureExtractor2016Bjoern {
 			File.separator + binaryFileName.getName()+"CFG"+File.separator);
 	
 	String filePath="";
-	
-	for(int i1=0; i1< graphmlCFGFiles.size();i1++){
+/*	for (int k=0; k< len; k++){ 
+	System.out.println(CFGGraphmlNodeBigrams[k]);
+	}
+*/	for(int i1=0; i1< graphmlCFGFiles.size();i1++){
 	    filePath = graphmlCFGFiles.get(i1).toString();  
 
 		String[] arr;
 		String[] arrSource;
 		String[] arrTarget;
 		String bigrams = "";
-
+		String[] toAdd;
+		String allBigrams = "";
 
 		BufferedReader br = new BufferedReader(new FileReader(filePath));
 		String line;
@@ -470,7 +507,7 @@ public class FeatureExtractor2016Bjoern {
 		line = line.replaceAll("<node id=", "\n <node id=");	
 		line = line.replaceAll("<edge id=", "\n <edge id=");	
 		BufferedReader br2 = new BufferedReader(new StringReader(line));
-		//	System.out.println("unprocessed line: "+line);
+			//System.out.println("unprocessed line: "+line);
 		String edge;
 
 			while ((edge = br2.readLine()) != null)
@@ -482,12 +519,12 @@ public class FeatureExtractor2016Bjoern {
 					String sourceNode = arr[2];	
 					sourceNode = sourceNode.replaceAll(" target", "");
 					sourceNode = "<node id="+sourceNode;
-					//	System.out.println("Source code identified as: "+sourceNode);
+					//System.out.println("Source code identified as: "+sourceNode);
 
 					String targetNode = arr[3];	
 					targetNode = targetNode.replaceAll(" label", "");
 					targetNode = "<node id="+targetNode;
-					//	System.out.println("Target node identified as: "+targetNode);
+					//System.out.println("Target node identified as: "+targetNode);
 
 					BufferedReader brNodes = new BufferedReader(new FileReader(filePath));
 
@@ -503,52 +540,83 @@ public class FeatureExtractor2016Bjoern {
 							nodeTarget=node;		
 							if(node.contains(sourceNode)){
 								arrSource = node.split("data key=",5);
-								//		System.out.println("Node: "+node);
+								//System.out.println("S Node: "+node);
 								node = arrSource[1];	
+				//				System.out.println("S Node: "+node);
 								node = node.replaceAll("</data><", "");	
 								node = node.replaceAll("\\\"repr\\\">", "");	
 								node = node.replaceAll("0[xX][0-9a-fA-F]+", "hexadecimal");
 								node = node.replaceAll("\\d+", "number");
-								node =node.replaceAll("\\s+", " ");	
-								//		System.out.println("Source node of edge: "+node);
-								sourceNodeRepr = node;		
+								node =node.replaceAll("\\|", " ");
+								node =node.replaceAll("\\,", " ");
+								node =node.replaceAll(",$", " ");
+								node =node.replaceAll("\\s+", " ");   	
+						//		System.out.println("Source node of edge: "+node);
+								sourceNodeRepr = node;
+								toAdd = node.split("\\s");
+						/*
+                                                    for(int i2 =0; i2 < toAdd.length; i2++)
+                                                {
+                                                
+                                                allBigrams+= toAdd[i2].toString();
+                                        	//System.out.println(toAdd[i2]);
+						}
+						*/
 						}
 					if(nodeTarget.contains(targetNode)){
 						arrTarget = nodeTarget.split("data key=",5);
-						nodeTarget = arrTarget[1];	
+						//System.out.println("Node: "+nodeTarget);
+						nodeTarget = arrTarget[1];
+				//		System.out.println("T Node: "+nodeTarget);	
 						nodeTarget = nodeTarget.replaceAll("\\\"repr\\\">", "");	
 						nodeTarget = nodeTarget.replaceAll("</data><", "");	
 						nodeTarget = nodeTarget.replaceAll("0[xX][0-9a-fA-F]+", "hexadecimal");
 						nodeTarget = nodeTarget.replaceAll("\\d+", "number");
-						nodeTarget =nodeTarget.replaceAll("\\s+", " ");	
-						//		System.out.println("Target node of edge: "+nodeTarget);
+						nodeTarget =nodeTarget.replaceAll("\\,", " ");
+						nodeTarget =nodeTarget.replaceAll(",$", " ");
+						nodeTarget =nodeTarget.replaceAll("\\|", " ");    
+						nodeTarget =nodeTarget.replaceAll("\\s+", " ");
+						//System.out.println("Target node of edge: "+nodeTarget);
 						targetNodeRepr = nodeTarget;
-					}	
+						 /*  toAdd = nodeTarget.split("\\s");
+				
+                                                    for(int i3 =0; i3< toAdd.length; i3++)
+                                                {
+                                                
+                                                allBigrams+=toAdd[i3].toString();
+						//System.out.println(toAdd[i3]);
+						}
+						*/
+					        }	
 						}
 				br3.close();
 					}
 				brNodes.close();
 				
 				
-				 bigrams = bigrams + sourceNodeRepr.trim()+" "+ targetNodeRepr.trim() + " bigram"+counter +" " ;
-					/*	System.out.println("Node bigram: "+
-						sourceNodeRepr.trim()+" "+ targetNodeRepr.trim());	*/	
-					counter++;
+				bigrams = bigrams + sourceNodeRepr.trim()+" "+ targetNodeRepr.trim();// + " bigram"+counter +" " ;
+				/*		System.out.println("Node bigram: "+
+						sourceNodeRepr.trim()+" "+ targetNodeRepr.trim());		
+				*/
+						counter++;
 						}
 				
 						}
 						br2.close();
-				}	
+				}
+				
 				br.close();		
 				//how many of a particular bigram exists in bigrams[]
 				//get count of each cfg node unigram in CFGBjoern 	
 				if(counter>0){
 			    for (int i =0; i<len; i++){
 			 	  str = CFGGraphmlNodeBigrams[i].toString();
+				//System.out.println(str);
 			 	cfgEdgeBigramCount[i] = StringUtils.countMatches(bigrams, str.trim()); 
 				cfgEdgeBigramCount[i]=cfgEdgeBigramCount[i]+tmp[i];
 				tmp[i]= cfgEdgeBigramCount[i];		
-				}	}	
+				}	
+		}	
  	    }	 	      	
 	    return cfgEdgeBigramCount;
     }
@@ -558,10 +626,11 @@ public class FeatureExtractor2016Bjoern {
 		
 		
 		List  test_file_paths = listBjoernCFGGraphmlFiles(dirPath);
-		String[] words = null;
+		String[] words ;
 		Set<String> biGrams = new LinkedHashSet<String>();
 		String filePath="";
-		
+		String[] toAdd;
+		String allBigrams = "" ;		
 		// add newline after </node>
 		//then do a csv split
 		//if the edge contains CFLOW find its source and target nodes and append as bigram
@@ -579,11 +648,8 @@ public class FeatureExtractor2016Bjoern {
 				String nodes;
 				String sourceNodeRepr = null;
 				String targetNodeRepr = null;
-
-
 				while ((line = br.readLine()) != null)
 				{	
-
 						line = line.replaceAll("<node id=", "\n <node id=");	
 						line = line.replaceAll("<edge id=", "\n <edge id=");	
 						BufferedReader br2 = new BufferedReader(new StringReader(line));
@@ -592,7 +658,7 @@ public class FeatureExtractor2016Bjoern {
 						while ((edge = br2.readLine()) != null)
 						{	
 						if(edge.contains("CFLOW")){
-					//	System.out.println("CFG edge: "+edge);
+						//System.out.println("CFG edge: "+edge);
 						arr = edge.split("=",5);
 						//<edge id="#20:4" source="#9:1029" target="#9:1028" label="CFLOW_ALWAYS"></edge>
 						String sourceNode = arr[2];	
@@ -620,15 +686,41 @@ public class FeatureExtractor2016Bjoern {
 						nodeTarget=node;		
 						if(node.contains(sourceNode)){
 							arrSource = node.split("data key=",5);
-					//		System.out.println("Node: "+node);
+					//	System.out.println("Node: "+node);
 							node = arrSource[1];	
 							node = node.replaceAll("\\\"repr\\\">", "");	
 							node = node.replaceAll("</data><", "");	
 							node = node.replaceAll("0[xX][0-9a-fA-F]+", "hexadecimal");
 							node = node.replaceAll("\\d+", "number");
-							node =node.replaceAll("\\s+", " ");	
+							node =node.replaceAll("\\s+", " ");
+						//	node = node.replaceAll("\\+", " ");
+                                                node = node.replaceAll("\\|", " ");
+                                         //       node = node.replaceAll("\\*", " ");
+                                        //        node = node.replaceAll("\\:", " ");
+                                         //       node = node.replaceAll("\\_", " ");    
+                                         //       node = node.replaceAll("\\[", " ");
+                                         //       node = node.replaceAll("\\]", " ");
+                                                  node = node.replaceAll("(\\d+),.*", " ");
+                                         	  node = node.replaceAll(",$", " ");
+                                                  node = node.replaceAll("\\,", " ");                     
+                                         //       node = node.replaceAll("0[xX][0-9a-fA-F]+", "hexadecimal");
+                                         //       node = node.replaceAll("\\d+", "number");
+                                                  node =node.replaceAll("\\s+", " ");     
+                                         	
 					//		System.out.println("Source node of edge: "+node);
-							sourceNodeRepr = node;		
+							sourceNodeRepr = node;
+					//        System.out.println("bigram: "+node);
+                                               /* toAdd = sourceNodeRepr.split("\\s");
+
+                                                    for(int i1 =0; i1< toAdd.length; i1++)
+                                                {
+                                                
+                                               	biGrams += toAdd[i1]);
+                                                //wSystem.out.println("unigram "+i1+": "+toAdd[i1]);
+                                                }                                               
+                                        	*/
+					allBigrams = allBigrams.trim() + " "+ sourceNodeRepr.trim();	
+						//System.out.println("All bigrams: " + allBigrams);	
 						}
 						if(nodeTarget.contains(targetNode)){
 							arrTarget = nodeTarget.split("data key=",5);
@@ -637,24 +729,71 @@ public class FeatureExtractor2016Bjoern {
 							nodeTarget = nodeTarget.replaceAll("</data><", "");	
 							nodeTarget = nodeTarget.replaceAll("0[xX][0-9a-fA-F]+", "hexadecimal");
 							nodeTarget = nodeTarget.replaceAll("\\d+", "number");
-							nodeTarget =nodeTarget.replaceAll("\\s+", " ");	
+							nodeTarget =nodeTarget.replaceAll("\\s+", " ");
+					//	node = nodeTarget.replaceAll("\\+", " ");
+                                                nodeTarget = nodeTarget.replaceAll("\\|", " ");
+                                        //        node = nodeTarget.replaceAll("\\*", " ");
+                                        //        node = nodeTarget.replaceAll("\\:", " ");
+                                        //        node = nodeTarget.replaceAll("\\_", " ");    
+                                        //        node = nodeTarget.replaceAll("\\[", " ");
+                                         //       node = nodeTarget.replaceAll("\\]", " ");
+                                                  node = nodeTarget.replaceAll("(\\d+),.*", " ");
+                                                  node = nodeTarget.replaceAll(",$", " ");
+                                                  node = nodeTarget.replaceAll("\\,", " ");                     
+                                              //  node = nodeTarget.replaceAll("0[xX][0-9a-fA-F]+", "hexadecimal");
+                                             //   node = nodeTarget.replaceAll("\\d+", "number");
+                                                node =nodeTarget.replaceAll("\\s+", " "); 	
 					//		System.out.println("Target node of edge: "+nodeTarget);
 							targetNodeRepr = nodeTarget;
+							     
+                                          //      System.out.println("Target node unigram: "+ nodeTarget);
+                                            		allBigrams = allBigrams.trim() +" "+ nodeTarget.trim();
+						//    toAdd = targetNodeRepr.split("\\s");
+
+                                               /*     for(int i1 =0; i1< toAdd.length; i1++)
+                                                {
+                                                
+                                               	allBigrams += toAdd[i1];
+                                                }                                               
+                                          */
+						 //System.out.println("allBigrams"+ allBigrams);
+	
 						}	
 						}
 							br3.close();
 							}
 						brNodes.close();
-						biGrams.add(sourceNodeRepr.trim()+" "+ targetNodeRepr.trim());
-					/*	System.out.println("Node bigram: "+
-						sourceNodeRepr.trim()+" "+ targetNodeRepr.trim());	*/								
+					//	biGrams.add(sourceNodeRepr.trim()+" "+ targetNodeRepr.trim());
+//						System.out.println("Node bigram: "+
+//						sourceNodeRepr.trim()+" "+ targetNodeRepr.trim());									
 						}
 						}
 						br2.close();
 				}	
 				br.close();			
  	    }	 	      
- 	    		words =   biGrams.toArray(new String[biGrams.size()]);
+ 	/*    		String[] fullBagOfWords;
+			fullBagOfWords =   biGrams.toArray(new String[biGrams.size()]);
+
+			for (int i = 0; i < fullBagOfWords.length - 1; i++) {
+    				for (int j = i + 1; j < fullBagOfWords.length; j++) {
+        				words.add(fullBagOfWords[i] + " " + fullBagOfWords[j] + ", " + (j - i));
+    				}
+			}*/
+//		System.out.println(allBigrams);
+			String[] setBigrams = allBigrams.split("\\s"); 	
+				String finalSet = " ";
+				for (int i = 0; i < setBigrams.length - 1; i++) {
+ 					   for (int j = i + 1; j < setBigrams.length; j++) {
+			      				//finalSet += setBigrams[i] + " " + setBigrams[j] + ", ";
+		    						 //System.out.println("Final Set"+ finalSet);
+						biGrams.add(setBigrams[i].trim() + " "+ setBigrams[j].trim());
+					}
+					}
+		//	biGrams = finalSet.split(",");
+			words = biGrams.toArray(new String[biGrams.size()]);
+	//		System.out.println("Words Array");
+	//		System.out.println(words.toString());
 			    return words;		
 	}
     
@@ -689,8 +828,13 @@ public class FeatureExtractor2016Bjoern {
 					//	line = line.replaceAll("^[A-Fa-f0-9]+$", "hexadecimal");
 						line = line.replaceAll("0[xX][0-9a-fA-F]+", "hexadecimal");
 						line = line.replaceAll("\\d+", "number");
-						line =line.replaceAll("\\s+", " ");	
+						line = line.replaceAll("\\s+", " ");
+						//line =line.replaceAll("\\s+", " ");    	
+						line =line.replaceAll("\\,", " ");  
+						line =line.replaceAll("\\..+", " ");
+						line =line.replaceAll("\\|", " ");
 						toAdd = line.trim().split("\\s+");
+
 					//	System.out.println("line: "+line);
 						for(int i11 =0; i11< toAdd.length; i11++)
 							{
@@ -714,7 +858,9 @@ public class FeatureExtractor2016Bjoern {
     String str;
     int symbolCount = wordUnigrams.length;
     float[] counter = new float[symbolCount]; 	
- 		featureText=	featureText.replaceAll("\\\"", " ");	
+ 		
+		featureText=    featureText.replaceAll("\\\"", " ");    
+		featureText=	featureText.replaceAll("\\|", " ");	
  		featureText=	featureText.replaceAll("0[xX][0-9a-fA-F]+", "hexadecimal");
  		featureText=	featureText.replaceAll("\\d+", "number");
  		featureText=	featureText.replaceAll("\\s+", " ");	
@@ -746,7 +892,11 @@ public class FeatureExtractor2016Bjoern {
 					line = line.replaceAll("\\\"", " ");	
 					line = line.replaceAll("0[xX][0-9a-fA-F]+", "hexadecimal");
 					line = line.replaceAll("\\d+", "number");
-					line =line.replaceAll("\\s+", " ");	
+					line = line.replaceAll("\\s+", " ");	
+					line = line.replaceAll("\\,", " ");
+					          // line =line.replaceAll("\\,", " ");  
+                                                line =line.replaceAll("\\..+", " ");
+                                                line =line.replaceAll("\\|", " ");    
 					toAdd = line.trim().split("\\s+");
 			//		System.out.println("line:"+line);
 					if(toAdd.length > 1){
@@ -811,6 +961,9 @@ public class FeatureExtractor2016Bjoern {
     					line = line.replaceAll("0[xX][0-9a-fA-F]+", "hexadecimal");
     					line = line.replaceAll("\\d+", "number");
     					line =line.replaceAll("\\s+", " ");	
+					           line =line.replaceAll("\\,", " ");  
+                                                line =line.replaceAll("\\..+", " ");
+                                                line =line.replaceAll("\\|", " ");
     					toAdd = line.trim().split("\\s+");
     					//System.out.println("line:"+line);
     					if(toAdd.length > 2){
