@@ -47,3 +47,4 @@ Take binaries or if you have source code compile them.
 	      
 	      
 **To compile the project run the Makefile included.
+*** Edit config/binary_project.conf to include all the neccessary paths
