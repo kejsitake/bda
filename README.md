@@ -25,11 +25,10 @@ Take binaries or if you have source code compile them.
       1.	Disassemble, 
               1.	BinaryDisassemble.java		
               2.	bjoernDisassemble.java
-      2.	Decompile to obtain decompiled source code, 
-              1.	DecompileBinaries.java
-      3.	Generate abstract syntax trees, 
+
+      2.	Generate abstract syntax trees, 
               1.	FeatureCalculators.java		
-      4.	Generate control flow graphs. 	
+      3.	Generate control flow graphs. 	
               1.	bjoernGenerateGraphmlCFG.java
 
 2.	Extract features from four data sources 
