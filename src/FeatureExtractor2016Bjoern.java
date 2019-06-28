@@ -519,12 +519,12 @@ public class FeatureExtractor2016Bjoern {
 					String sourceNode = arr[2];	
 					sourceNode = sourceNode.replaceAll(" target", "");
 					sourceNode = "<node id="+sourceNode;
-					//System.out.println("Source code identified as: "+sourceNode);
+					System.out.println("Source code identified as: "+sourceNode);
 
 					String targetNode = arr[3];	
 					targetNode = targetNode.replaceAll(" label", "");
 					targetNode = "<node id="+targetNode;
-					//System.out.println("Target node identified as: "+targetNode);
+					System.out.println("Target node identified as: "+targetNode);
 
 					BufferedReader brNodes = new BufferedReader(new FileReader(filePath));
 
@@ -630,11 +630,14 @@ public class FeatureExtractor2016Bjoern {
 		Set<String> biGrams = new LinkedHashSet<String>();
 		String filePath="";
 		String[] toAdd;
+		int rdm_count = 0;
 		String allBigrams = "" ;		
 		// add newline after </node>
 		//then do a csv split
 		//if the edge contains CFLOW find its source and target nodes and append as bigram
- 	    for(int i=0; i< test_file_paths.size(); i++){
+ 	    	System.out.println(test_file_paths.toString());
+		System.out.println("Numeber of files: " + test_file_paths.size());
+		for(int i=0; i< test_file_paths.size(); i++){
  	    	
  	    	filePath = test_file_paths.get(i).toString();  
 		//	System.out.println(filePath);						   
@@ -655,9 +658,12 @@ public class FeatureExtractor2016Bjoern {
 						BufferedReader br2 = new BufferedReader(new StringReader(line));
 						//	System.out.println("unprocessed line: "+line);
 						String edge;
+		//				 rdm_count = 0;
+						System.out.println("Size of line: "+line.length());
 						while ((edge = br2.readLine()) != null)
 						{	
 						if(edge.contains("CFLOW")){
+						rdm_count++;
 						//System.out.println("CFG edge: "+edge);
 						arr = edge.split("=",5);
 						//<edge id="#20:4" source="#9:1029" target="#9:1028" label="CFLOW_ALWAYS"></edge>
@@ -780,9 +786,11 @@ public class FeatureExtractor2016Bjoern {
         				words.add(fullBagOfWords[i] + " " + fullBagOfWords[j] + ", " + (j - i));
     				}
 			}*/
-//		System.out.println(allBigrams);
+			System.out.println("Number of edges: " + rdm_count);
+			System.out.println("String length: " + allBigrams.length());
 			String[] setBigrams = allBigrams.split("\\s"); 	
-				String finalSet = " ";
+			System.out.println(setBigrams.length);	
+			String finalSet = " ";
 				for (int i = 0; i < setBigrams.length - 1; i++) {
  					   for (int j = i + 1; j < setBigrams.length; j++) {
 			      				//finalSet += setBigrams[i] + " " + setBigrams[j] + ", ";

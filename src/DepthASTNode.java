@@ -47,13 +47,13 @@ public class DepthASTNode {
 		         List<IndexWrapper> occurrencesHere = finder.findIndexesForKeyword(str);
 			  	 occurrences[j] = occurrences[j] + occurrencesHere.size();
 			  	 
-
+//System.out.println(str);
 			  	 for(int k=0; k<occurrencesHere.size(); k++)
 			  	 {
 			  	   int rightParanthesis =0;//(
 			  	   int leftParanthesis =0;//)
-
 			  	   for (Character c: textAST.substring(0,occurrencesHere.get(k).getStart()).toCharArray()) {
+				//	   System.out.println(textAST.substring(0,occurrencesHere.get(k).getStart()).toCharArray());
 			  	       if (c.equals('(')) {
 			  	    	 rightParanthesis++;
 			  	       }
@@ -62,6 +62,8 @@ public class DepthASTNode {
 			  	       }
 			  	   }
 			  	 totalDepth[j]= totalDepth[j]+rightParanthesis-leftParanthesis;		  	   
+	 //System.out.println(totalDepth[j]);
+
 			  	 }
 			  	 
 			  	 if(occurrences[j]==0)
@@ -73,6 +75,9 @@ public class DepthASTNode {
 			  	 else
 			  	 avgDepth[j]= totalDepth[j]/occurrences[j];		  	 
 			}		
+		}
+		for (int j=0; j< totalDepth.length; j++){
+		System.out.println(totalDepth[j]);
 		}
 		return avgDepth;
 	}
@@ -133,12 +138,20 @@ public class DepthASTNode {
 
         //take the function id in the beginning of the line.    
 		String[] lines = featureText.split("\n");
+		//System.out.println (Arrays.toString(lines));
+		System.out.println("lenght of lines: " + lines.length);
 		for(int i=0; i< lines.length; i++)
 		{
 	        String firstWord = lines[i].substring(0, featureText.indexOf('\t'));
-	        if(!functionIDs.contains(firstWord))
+	        //System.out.println("FeatureText.index: " + featureText.indexOf('\t'));
+		if(!functionIDs.contains(firstWord)){
 	        functionIDs.add(firstWord);
+		//System.out.println("First word: " + firstWord);
 		}
+		}
+		//System.out.println("Printing functionIds");
+		//System.out.println(functionIDs);
+		//System.out.println(functionIDs.size());
 		int [] ASTDepLines=new int[functionIDs.size()];
 		for(int i=0; i< lines.length; i++)
 		{
@@ -161,7 +174,9 @@ public class DepthASTNode {
 	        	}
 		    functionIDs2.add(firstWord);
 	        }
-		}       	
+		}
+		System.out.println("FunctionIDs:");
+	System.out.println(functionIDs);       	
 	       return ASTDepLines;        
 	}
     

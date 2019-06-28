@@ -79,8 +79,8 @@ public class AuthorClassificationBasic {
 				  average=0;
 
 				  for(seedNumber=1; seedNumber<2; seedNumber++){
-					  int foldNumber=numberFiles;
-
+					  //int foldNumber=numberFiles;
+					int foldNumber = 8;
 
  
 		RandomForest cls = new RandomForest();
@@ -108,7 +108,7 @@ public class AuthorClassificationBasic {
 
 		 
 		//do not stratify if you are going to remove instances for training and testing
-	     data.stratify(foldNumber);
+	     //data.stratify(foldNumber);
 	     //be careful about this for removing instanceID only
 	 //	 filteredData.deleteAttributeAt(0);
 /*
@@ -138,7 +138,7 @@ public class AuthorClassificationBasic {
 
 		   
 		 
-	     System.out.println("before building classifier");
+	     /*System.out.println("before building classifier");
 		 String[] options = weka.core.Utils.splitOptions("-I 500 -K "+numFeatures+" -S "+seedNumber);
 			cls.setOptions(options);
 		cls.buildClassifier(data);
@@ -156,7 +156,8 @@ public class AuthorClassificationBasic {
 		
 		
 		
-		eval.crossValidateModel(cls, data,foldNumber , new Random(seedNumber));
+		eval.crossValidateModel(cls, data,foldNumber , new Random(seedNumber)); 
+*/
 /*		System.out.println("Relaxed by, "+relaxPar+", seedNo,"+seedNumber+", files,"+numberFiles+", authors,"+filteredData.numClasses());
 		Util.writeFile("Relaxed by, "+relaxPar+", seedNo,"+seedNumber+", files,"+numberFiles+", authors,"+filteredData.numClasses(),
 				fileName, true);*/
@@ -172,22 +173,23 @@ public class AuthorClassificationBasic {
 	     
 	     
 
+//Uncomment this
 	
-	     accuracy=eval.pctCorrect();
-	     total =total+accuracy;
-	     average = total/seedNumber;
+//	     accuracy=eval.pctCorrect();
+//	     total =total+accuracy;
+//	     average = total/seedNumber;
 
-		  System.out.println("accuracy is "+eval.pctCorrect());
+//		  System.out.println("accuracy is "+eval.pctCorrect());
 
-		  System.out.println("\nThe accuracy with  is "+eval.pctCorrect()+", relaxed by, "+relaxPar+", \n"
-		 );
+//		  System.out.println("\nThe accuracy with  is "+eval.pctCorrect()+", relaxed by, "+relaxPar+", \n"
+//		 );
 /*Util.writeFile("\nThe accuracy with feature is "+eval.pctCorrect()+", relaxed by, "+relaxPar+", \n",
 		 fileName, true);
 			}	*/
 
-				  System.out.println("total is "+total);
-				  System.out.println("avg is "+average);
-				  System.out.println("accuracy is "+accuracy);
+//				  System.out.println("total is "+total);
+//				  System.out.println("avg is "+average);
+//				  System.out.println("accuracy is "+accuracy);
 
 /*		System.out.println("\nThe average accuracy with "+numberFiles+"files is "+average+"\n");	
 	     Util.writeFile("\nThe average accuracy with "+numberFiles+"files is "+average+", relaxed by, "+relaxPar+", \n",

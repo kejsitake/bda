@@ -64,7 +64,8 @@ public class BigramExtractor {
 		   int authorCount = words.length;
 		   if (i+1==test_file_paths.size()){
 		   for (int j=0; j< authorCount; j++){
-			   {System.out.println(words[j]);
+			   {
+				//System.out.println(words[j]);
 				if(j+1 == authorCount)
 				{
 			   Util.writeFile(words[j]+"}"+"\n\n",output_filename, true);
@@ -124,8 +125,11 @@ public class BigramExtractor {
 		String filePath = test_file_paths.get(i).toString();  
 	//	System.out.println(filePath);
 
-   String inputText =Util.readFile(filePath);
+	String inputText =Util.readFile(filePath);
 	int [] lines = DepthASTNode.getASTDepLines(inputText);
+	System.out.println("DepthASTNode");
+	System.out.println(Arrays.toString(lines));
+	System.out.println(lines.length);
 	String textAST=null;
 	String inputTextParanthesisRemoved="";
 	String [] arr;
@@ -134,6 +138,8 @@ public class BigramExtractor {
 		//System.out.println(lines[j]);
 
 		textAST = DepthASTNode.readLineNumber(inputText, lines[j]);
+		//System.out.println("TEXT AST");
+		//System.out.println(textAST.substring(0, textAST.indexOf("\t")));
 /*		String inputTextParanthesisRemoved = textAST.replaceAll("[()]"," ");
 		 inputTextParanthesisRemoved = inputTextParanthesisRemoved.replaceAll("\\d+\\t"," ");
 		 inputTextParanthesisRemoved = inputTextParanthesisRemoved.replaceAll("( )+"," ");*/

@@ -26,14 +26,14 @@ public class WholeWordIndexFinder {
         } 
         
         catch (PatternSyntaxException ex) {
-        	System.out.println("This string does not compile: "+ex.getPattern());
-        	System.out.println(ex.getMessage());
+        	//System.out.println("This string does not compile: "+ex.getPattern());
+        	//System.out.println(ex.getMessage());
         	
         	if(!keyword.contains("\\\""))
         	{
              regex = "\\"+keyword;
         	 pattern = Pattern.compile(regex);        
-           	System.out.println("Pattern created in catch: "+pattern.pattern());
+           	//System.out.println("Pattern created in catch: "+pattern.pattern());
              matcher = pattern.matcher(searchString);
         	        }
         }
@@ -52,7 +52,7 @@ public class WholeWordIndexFinder {
     public static void main(String[] args) {
         WholeWordIndexFinder finder = new WholeWordIndexFinder(
         		"2	{}(FunctionDef(((CompoundStatement%((ForStatement&((ForInit((IdentifierDeclStatement((ForStatement&)IdentifierDecl)))))((Condition((RelationalExpression(x)(10)))))((IncDecOp((x))((++))))");
-        List<IndexWrapper> indexes = finder.findIndexesForKeyword("{}");
+        List<IndexWrapper> indexes = finder.findIndexesForKeyword("ForStatement");
         System.out.println("Indexes found "+indexes.size() +" keyword found at index : " +indexes.get(0).getStart() + " "+indexes.get(1).getStart());
         
         //input should be the dep file, do this for each line
