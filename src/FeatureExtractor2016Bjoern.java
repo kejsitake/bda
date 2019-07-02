@@ -659,7 +659,7 @@ public class FeatureExtractor2016Bjoern {
 						//	System.out.println("unprocessed line: "+line);
 						String edge;
 		//				 rdm_count = 0;
-						System.out.println("Size of line: "+line.length());
+//System.out.println("Size of line: "+line.length());
 						while ((edge = br2.readLine()) != null)
 						{	
 						if(edge.contains("CFLOW")){

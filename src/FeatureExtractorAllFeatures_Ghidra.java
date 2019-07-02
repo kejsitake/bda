@@ -59,13 +59,13 @@ public class FeatureExtractorAllFeatures_Ghidra {
 		   	for(int j=0; j < test_binary_paths.size();j++)
 			{
 				File sourceFile = new File(test_binary_paths.get(j).toString());
-				String fileName = sourceFile.getName() +"_"+ sourceFile.getParentFile().getParentFile().getName();
+				String fileName = sourceFile.getName() +"_"+ sourceFile.getParentFile().getParentFile().getParentFile().getName();
 				Util.writeFile(fileName+",", output_filename, true);
 				if ((j+1)==test_binary_paths.size()){
 				Util.writeFile("}"+"\n", output_filename, true);
 				}
 			}
-	/*	   	
+		   	
 		   	//BJOERN FEATURES START
 		   	// Related files:
 		     // 1645485_1480492_a9108_bjoernDisassembly/nodes.csv
@@ -113,17 +113,17 @@ public class FeatureExtractorAllFeatures_Ghidra {
 		   	//	System.out.println("@attribute 'BjoernDisassemblyInstructionTrigrams"+i+ " "+bjoernDisassemblyTrigrams[i]);
 	    		Util.writeFile("@attribute 'BjoernDisassemblyInstructionTrigrams "+i+"=["+bjoernDisassemblyTrigrams[i].replace("'", "apostrophesymbol")+"]' numeric"+ "\n", output_filename, true);
 		   	}
-	*/	   	
+		   	
 		   	//DISASSEMBLY LINE UNIGRAMS
 		   	//get the line unigrams in bjoern disassembly and write the line unigram features
-		   /*    String[] disassemblyLineUnigrams =FeatureExtractor2016Bjoern.getBjoernLineUnigrams(test_dir);
+		       String[] disassemblyLineUnigrams =FeatureExtractor2016Bjoern.getBjoernLineUnigrams(test_dir);
 		    	for (int i=0; i<disassemblyLineUnigrams.length; i++)	   	
 		    {
 		    		Util.writeFile("@attribute 'disassemblyBjoernLineUnigrams "+i+"=["+disassemblyLineUnigrams[i].replace("'", "apostrophesymbol")+"]' numeric"+"\n", output_filename, true);
         		//	System.out.println("@attribute 'disassemblyLineUnigrams "+i+"=["+disassemblyLineUnigrams[i]+"]");
 		       }		
 		    	
-	/		 //DISASSEMBLY LINE BIGRAMS
+			 //DISASSEMBLY LINE BIGRAMS
 		   	//get the line bigrams in bjoern disassembly and write the line bigram features
 		    	String[] disassemblyLineBigrams =FeatureExtractor2016Bjoern.getBjoernLineBigrams(test_dir);
 		    	for (int i=0; i<disassemblyLineBigrams.length; i++)	   	
@@ -132,7 +132,7 @@ public class FeatureExtractorAllFeatures_Ghidra {
 		    	//	System.out.println("@attribute 'disassemblyLineBigrams "+i+"=["+disassemblyLineBigrams[i]+"]");
 		    	}	
 			 //BJOERN FEATURES END
-	/*		 // Related files:
+			 // Related files:
 		     // 1645485_1480492_a9108_bjoernDisassembly/nodes.csv
 			 // 1645485_1480492_a9108_bjoernDisassembly/1645485_1480492_a9108CFG/*.graphml
 			 
@@ -172,29 +172,30 @@ public class FeatureExtractorAllFeatures_Ghidra {
 		    	
 		      	// DECOMPILED CODE AKA SCAA FEATURES START (FROM HEXRAYS)
 			   	// Related files:
-		    	// 1842485_1486492_a9108_hexrays_decompiled.cpp
-		    	// 1842485_1486492_a9108_hexrays_decompiled.ast
-		    	// 1842485_1486492_a9108_hexrays_decompiled.dep
-		    	// 1842485_1486492_a9108_hexrays_decompiled.txt
+		    	// 1842485_1486492_a9108_ghidra_decompiled.cpp
+		    	// 1842485_1486492_a9108_ghidra_decompiled.ast
+		    	// 1842485_1486492_a9108_ghidra_decompiled.dep
+		    	// 1842485_1486492_a9108_ghidra_decompiled.txt
 		    	
 				// DECOMPILED CODE AKA SCAA FEATURES END (FROM HEXRAYS)
 			   	// Related files:
-		       	// 1842485_1486492_a9108_hexrays_decompiled.cpp
-		    	// 1842485_1486492_a9108_hexrays_decompiled.ast
-		    	// 1842485_1486492_a9108_hexrays_decompiled.dep
-		    	// 1842485_1486492_a9108_hexrays_decompiled.txt
+		       	// 1842485_1486492_a9108_ghidra_decompiled.cpp
+		    	// 1842485_1486492_a9108_ghidra_decompiled.ast
+		    	// 1842485_1486492_a9108_ghidra_decompiled.dep
+		    	// 1842485_1486492_a9108_ghidra_decompiled.txt
 			  
-*/				
+				
 			    //uniqueASTTypes does not contain user input, such as function and variable names
 			    //uniqueDepASTTypes contain user input, such as function and variable names
 			    
 			//Use the following for syntactic inner nodes and code leaves (remember to change astlabel.py accordingly!
-				/*			 
-			  String[] wordUnigramsCPP =FeatureExtractorDecompiledCode.getWordUnigramsDecompiledCode(test_dir, "cpp");
+							 
+	/*		  String[] wordUnigramsCPP =FeatureExtractorDecompiledCode.getWordUnigramsDecompiledCode(test_dir, "cpp");
 			  for (int i=0; i<wordUnigramsCPP.length; i++)	   	
 		     {  	
 		     Util.writeFile("@attribute 'wordUnigramsCPP "+i+"=["+wordUnigramsCPP[i].replace("'", "apostrophesymbol")+"]' numeric"+"\n", output_filename, true);
 		     }	
+		     */
 				
 			  String[] ASTNodeBigrams = BigramExtractor.getASTNodeBigrams(test_dir);
 			  for (int i=0; i<ASTNodeBigrams.length; i++)		
@@ -203,7 +204,7 @@ public class FeatureExtractorAllFeatures_Ghidra {
 			  }
 		  
 	
-	*/		  String[] ASTtypes =FeatureCalculators.uniqueDepASTTypes(test_dir);     
+			  String[] ASTtypes =FeatureCalculators.uniqueDepASTTypes(test_dir);     
 			    for (int i=0; i<ASTtypes.length; i++)	   	
 			  {  	
 			    	Util.writeFile("@attribute 'ASTNodeTypesTF "+i+"=["+ASTtypes[i].replace("'", "apostrophesymbol")+"]' numeric"+"\n", output_filename, true);
@@ -254,8 +255,8 @@ public class FeatureExtractorAllFeatures_Ghidra {
 			Util.writeFile("@attribute 'authorName_original' {", output_filename, true);
 			for(int i=0; i< test_binary_paths.size(); i++){
 				authorFileName= new File(test_binary_paths.get(i).toString());
-				String authorName= authorFileName.getParentFile().getName() +
-						"_"+authorFileName.getParentFile().getParentFile().getName() ;
+				String authorName= authorFileName.getParentFile().getParentFile().getName() +
+						"_"+authorFileName.getParentFile().getParentFile().getParentFile().getName() ;
 				//String authorName= authorFileName.g.getParentFile().getName() ;
 				text = text.concat(authorName + ",");  
 				String[] words = text.split( ",");
@@ -290,8 +291,8 @@ public class FeatureExtractorAllFeatures_Ghidra {
 			//EXTRACT LABELED FEATURES FROM CORRESPONDING FEATURE DATA SOURCES
 		   	for(int i=0; i< test_binary_paths.size(); i++){
 				authorFileName = new File(test_binary_paths.get(i).toString());
-				String authorName= authorFileName.getParentFile().getName() +
-						"_"+authorFileName.getParentFile().getParentFile().getName();
+				String authorName= authorFileName.getParentFile().getParentFile().getName() +
+						"_"+authorFileName.getParentFile().getParentFile().getParentFile().getName();
 				System.out.println("Binary filename: "+test_binary_paths.get(i));
 				System.out.println("Author: "+authorName);
 				String fileNameID = authorFileName.getName() +
@@ -305,7 +306,7 @@ public class FeatureExtractorAllFeatures_Ghidra {
 				 // Related files:
 			     // 1645485_1480492_a9108_bjoernDisassembly/nodes.csv
 				 // 1645485_1480492_a9108_bjoernDisassembly/1645485_1480492_a9108CFG/*.graphml
-/*
+
 				//GETTING CFG NODE UNIGRAMS
 				//get count of each cfg node unigram in CFGBjoern
 				System.out.println(bjoernCFGNodeUnigrams);
@@ -314,8 +315,8 @@ public class FeatureExtractorAllFeatures_Ghidra {
 				Util.writeFile(cfgNodeUniCount[j] +",", output_filename, true);
 				}
 			    
-*/				//GETTING CFG EDGES AKA NODE BIGRAMS
-			/*	//get count of each cfg node bigram in CFGBjoern 
+				//GETTING CFG EDGES AKA NODE BIGRAMS
+				//get count of each cfg node bigram in CFGBjoern 
 				float[] cfgEdgeBigramCount = FeatureExtractor2016Bjoern.getBjoernCFGGraphmlNodeBigramsTF(authorFileName , bjoernCFGNodeBigrams);			   
 			    for (int j=0; j<cfgEdgeBigramCount.length; j++){
 				Util.writeFile(cfgEdgeBigramCount[j] +",", output_filename, true);
@@ -345,7 +346,7 @@ public class FeatureExtractorAllFeatures_Ghidra {
 			    float[] lineBigramCount = FeatureExtractor2016Bjoern.getBjoernLineBigramsTF(featureTextBjoernDisassembly, disassemblyLineBigrams);
 			    for (int j=0; j<lineBigramCount.length; j++)
 				{Util.writeFile(lineBigramCount[j] +",", output_filename, true);}
-/*			    //BJOERN FEATURES END
+			    //BJOERN FEATURES END
 				 // Related files:
 			     // 1645485_1480492_a9108_bjoernDisassembly/nodes.csv
 				 // 1645485_1480492_a9108_bjoernDisassembly/1645485_1480492_a9108CFG/*.graphml
@@ -375,37 +376,37 @@ public class FeatureExtractorAllFeatures_Ghidra {
 			    for (int j=0; j<lineBigramNDISASMCount.length; j++)
 				{Util.writeFile(lineBigramNDISASMCount[j] +",", output_filename, true);}	
 			    // NDISASM FEATURES END - DISASSEMBLY - Related files: (1842485_1486492_a9108.dis)
-*/			    	
+			    	
 
 		    	// Related files:
 		      	// DECOMPILED CODE AKA SCAA FEATURES START (FROM HEXRAYS)
-		    	// 1842485_1486492_a9108_hexrays_decompiled.cpp
+		    	// 1842485_1486492_a9108_ghidra_decompiled.cpp
 				String featureTextHexraysDecompiledCodeCPP = Util.readFile(authorFileName.getParentFile()
-				+ File.separator + authorFileName.getName()+"_hexrays_decompiled.cpp");
-			    // 1842485_1486492_a9108_hexrays_decompiled.ast
+				+ File.separator + authorFileName.getName()+"_ghidra_decompiled.cpp");
+			    // 1842485_1486492_a9108_ghidra_decompiled.ast
 				String featureTextHexraysDecompiledCodeAST = Util.readFile(authorFileName.getParentFile()
-						+ File.separator + authorFileName.getName()+"_hexrays_decompiled.ast");
-			   	// 1842485_1486492_a9108_hexrays_decompiled.dep
+						+ File.separator + authorFileName.getName()+"_ghidra_decompiled.ast");
+			   	// 1842485_1486492_a9108_ghidra_decompiled.dep
 				String featureTextHexraysDecompiledCodeDEP = Util.readFile(authorFileName.getParentFile()
-						+ File.separator + authorFileName.getName()+"_hexrays_decompiled.dep");
-			   	// 1842485_1486492_a9108_hexrays_decompiled.txt
+						+ File.separator + authorFileName.getName()+"_ghidra_decompiled.dep");
+			   	// 1842485_1486492_a9108_ghidra_decompiled.txt
 				String featureTextHexraysDecompiledCodeTXT = Util.readFile(authorFileName.getParentFile()
-						+ File.separator + authorFileName.getName()+"_hexrays_decompiled.txt");
+						+ File.separator + authorFileName.getName()+"_ghidra_decompiled.txt");
 			    	
 				
-				/*			    //get count of each wordUnigram in C source file	 
+			/*				    //get count of each wordUnigram in C source file	 
 			    float[] wordUniCountCPP = FeatureExtractorDecompiledCode.getWordUnigramsDecompiledCodeTF(featureTextHexraysDecompiledCodeCPP, wordUnigramsCPP);
 			    for (int j=0; j<wordUniCountCPP.length; j++)
 				{Util.writeFile(wordUniCountCPP[j] +",", output_filename, true);}	
-				*/
-		/*	    //AST node bigrams
+			*/	
+			    //AST node bigrams
 				float[] bigramCount = BigramExtractor.getASTNodeBigramsTF(featureTextHexraysDecompiledCodeDEP, ASTNodeBigrams );
 				for (int j=0; j<ASTNodeBigrams.length; j++)
 				{Util.writeFile(bigramCount[j] +",", output_filename, true);}	    
 				    
 
-*/				
-/*			    //get count of each ASTtype not-DepAST type present	 
+				
+			    //get count of each ASTtype not-DepAST type present	 
 			    float[] typeCount = FeatureCalculators.DepASTTypeTF(featureTextHexraysDecompiledCodeDEP, ASTtypes );
 			    for (int j=0; j<ASTtypes.length; j++)
 				{Util.writeFile(typeCount[j] +",", output_filename, true);}	
@@ -415,21 +416,21 @@ public class FeatureExtractorAllFeatures_Ghidra {
 			    for (int j=0; j<ASTtypes.length; j++)
 				{Util.writeFile(DepastTypeTFIDF[j]+",", output_filename, true);}	
 				
-*/			    //get AST node avg depth
+			    //get AST node avg depth
 		    	float [] depFeature =DepthASTNode.getAvgDepthASTNode(featureTextHexraysDecompiledCodeDEP,ASTtypes);
 		    	for(int k=0;k<depFeature.length;k++)
 				{Util.writeFile(depFeature[k] +",", output_filename, true);}	
-/*			    
+			    
 		    	float [] cppKeywordsTF =FeatureCalculators.getCandCPPKeywordsTF(featureTextHexraysDecompiledCodeCPP);
 		    	for(int k=0;k<cppKeywordsTF.length;k++)
 				{Util.writeFile(cppKeywordsTF[k] +",", output_filename, true);}		
-			   	*/
+			   	
 				// Related files:
 				// DECOMPILED CODE AKA SCAA FEATURES END (FROM HEXRAYS)
-		       	// 1842485_1486492_a9108_hexrays_decompiled.cpp
-			    // 1842485_1486492_a9108_hexrays_decompiled.ast
-			    // 1842485_1486492_a9108_hexrays_decompiled.dep
-			    // 1842485_1486492_a9108_hexrays_decompiled.txt
+		       	// 1842485_1486492_a9108_ghidra_decompiled.cpp
+			    // 1842485_1486492_a9108_ghidra_decompiled.ast
+			    // 1842485_1486492_a9108_ghidra_decompiled.dep
+			    // 1842485_1486492_a9108_ghidra_decompiled.txt
 			    			    			   
 				Util.writeFile(authorName+"\n", output_filename, true);
 		   	}
