@@ -59,7 +59,7 @@ public class FeatureExtractorAllFeatures {
 		   	for(int j=0; j < test_binary_paths.size();j++)
 			{
 				File sourceFile = new File(test_binary_paths.get(j).toString());
-				String fileName = sourceFile.getName() +"_"+ sourceFile.getParentFile().getParentFile().getParentFile().getName();
+				String fileName = sourceFile.getName() +"_"+ sourceFile.getParentFile().getParentFile().getName();
 				Util.writeFile(fileName+",", output_filename, true);
 				if ((j+1)==test_binary_paths.size()){
 				Util.writeFile("}"+"\n", output_filename, true);
@@ -254,7 +254,7 @@ public class FeatureExtractorAllFeatures {
 			Util.writeFile("@attribute 'authorName_original' {", output_filename, true);
 			for(int i=0; i< test_binary_paths.size(); i++){
 				authorFileName= new File(test_binary_paths.get(i).toString());
-				String authorName= authorFileName.getParentFile().getParentFile().getName() +
+				String authorName= authorFileName.getParentFile().getName() +
 						"_"+authorFileName.getParentFile().getParentFile().getParentFile().getName() ;
 				//String authorName= authorFileName.g.getParentFile().getName() ;
 				text = text.concat(authorName + ",");  

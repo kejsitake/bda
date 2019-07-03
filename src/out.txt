@@ -1,0 +1,98 @@
+8c8
+< public class FeatureExtractorAllFeatures {
+---
+> public class FeatureExtractorAllFeatures_Ghidra {
+175,178c175,178
+< 		    	// 1842485_1486492_a9108_hexrays_decompiled.cpp
+< 		    	// 1842485_1486492_a9108_hexrays_decompiled.ast
+< 		    	// 1842485_1486492_a9108_hexrays_decompiled.dep
+< 		    	// 1842485_1486492_a9108_hexrays_decompiled.txt
+---
+> 		    	// 1842485_1486492_a9108_ghidra_decompiled.cpp
+> 		    	// 1842485_1486492_a9108_ghidra_decompiled.ast
+> 		    	// 1842485_1486492_a9108_ghidra_decompiled.dep
+> 		    	// 1842485_1486492_a9108_ghidra_decompiled.txt
+182,185c182,185
+< 		       	// 1842485_1486492_a9108_hexrays_decompiled.cpp
+< 		    	// 1842485_1486492_a9108_hexrays_decompiled.ast
+< 		    	// 1842485_1486492_a9108_hexrays_decompiled.dep
+< 		    	// 1842485_1486492_a9108_hexrays_decompiled.txt
+---
+> 		       	// 1842485_1486492_a9108_ghidra_decompiled.cpp
+> 		    	// 1842485_1486492_a9108_ghidra_decompiled.ast
+> 		    	// 1842485_1486492_a9108_ghidra_decompiled.dep
+> 		    	// 1842485_1486492_a9108_ghidra_decompiled.txt
+192,193c192,193
+< 				/*			 
+< 			  String[] wordUnigramsCPP =FeatureExtractorDecompiledCode.getWordUnigramsDecompiledCode(test_dir, "cpp");
+---
+> 							 
+> 	/*		  String[] wordUnigramsCPP =FeatureExtractorDecompiledCode.getWordUnigramsDecompiledCode(test_dir, "cpp");
+197a198
+> 		     */
+199c200
+< 	*/		  String[] ASTNodeBigrams = BigramExtractor.getASTNodeBigrams(test_dir);
+---
+> 			  String[] ASTNodeBigrams = BigramExtractor.getASTNodeBigrams(test_dir);
+223c224
+< 			   
+---
+> 			   /*
+248c249
+< 		
+---
+> 		*/
+298c299
+< 						"_"+authorFileName.getParentFile().getParentFile().getParentFile().getName();
+---
+> 						"_"+authorFileName.getParentFile().getParentFile().getName();
+382c383
+< 		    	// 1842485_1486492_a9108_hexrays_decompiled.cpp
+---
+> 		    	// 1842485_1486492_a9108_ghidra_decompiled.cpp
+384,385c385,386
+< 				+ File.separator + authorFileName.getName()+"_hexrays_decompiled.cpp");
+< 			    // 1842485_1486492_a9108_hexrays_decompiled.ast
+---
+> 				+ File.separator + authorFileName.getName()+"_ghidra_decompiled.cpp");
+> 			    // 1842485_1486492_a9108_ghidra_decompiled.ast
+387,388c388,389
+< 						+ File.separator + authorFileName.getName()+"_hexrays_decompiled.ast");
+< 			   	// 1842485_1486492_a9108_hexrays_decompiled.dep
+---
+> 						+ File.separator + authorFileName.getName()+"_ghidra_decompiled.ast");
+> 			   	// 1842485_1486492_a9108_ghidra_decompiled.dep
+390,391c391,392
+< 						+ File.separator + authorFileName.getName()+"_hexrays_decompiled.dep");
+< 			   	// 1842485_1486492_a9108_hexrays_decompiled.txt
+---
+> 						+ File.separator + authorFileName.getName()+"_ghidra_decompiled.dep");
+> 			   	// 1842485_1486492_a9108_ghidra_decompiled.txt
+393c394
+< 						+ File.separator + authorFileName.getName()+"_hexrays_decompiled.txt");
+---
+> 						+ File.separator + authorFileName.getName()+"_ghidra_decompiled.txt");
+395,396c396,397
+< 			/*	
+< 							    //get count of each wordUnigram in C source file	 
+---
+> 				
+> 			/*				    //get count of each wordUnigram in C source file	 
+400c401
+< 				*/
+---
+> 			*/	
+407c408
+< 			
+---
+> 				
+429,432c430,433
+< 		       	// 1842485_1486492_a9108_hexrays_decompiled.cpp
+< 			    // 1842485_1486492_a9108_hexrays_decompiled.ast
+< 			    // 1842485_1486492_a9108_hexrays_decompiled.dep
+< 			    // 1842485_1486492_a9108_hexrays_decompiled.txt
+---
+> 		       	// 1842485_1486492_a9108_ghidra_decompiled.cpp
+> 			    // 1842485_1486492_a9108_ghidra_decompiled.ast
+> 			    // 1842485_1486492_a9108_ghidra_decompiled.dep
+> 			    // 1842485_1486492_a9108_ghidra_decompiled.txt

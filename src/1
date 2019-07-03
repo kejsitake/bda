@@ -131,12 +131,12 @@ public class AuthorClassificationBasic {
 	     attributeSelection.setSearch(ranker); 
 	     attributeSelection.setInputFormat(data); 
 	     data = Filter.useFilter(data, attributeSelection); 
-	 	 /*BufferedWriter writer = new BufferedWriter(new FileWriter(IG_featureFile));
+	 	 BufferedWriter writer = new BufferedWriter(new FileWriter(IG_featureFile));
 		 writer.write(data.toString());
 		 writer.flush();
 		 writer.close();
 
-		  */ 
+		   
 		 
 	     System.out.println("before building classifier");
 		 String[] options = weka.core.Utils.splitOptions("-I 500 -K "+numFeatures+" -S "+seedNumber);
@@ -153,13 +153,7 @@ public class AuthorClassificationBasic {
 		else
 		 eval= new RelaxedEvaluation(data, relaxPar);
 		
-		//data = Filter.useFilter(data, attributeSelection); 
-	 	 BufferedWriter writer = new BufferedWriter(new FileWriter(IG_featureFile));
-		 writer.write(data.toString());
-		 writer.flush();
-		 writer.close();
-
-
+		
 		
 		
 		eval.crossValidateModel(cls, data,foldNumber , new Random(seedNumber)); 
