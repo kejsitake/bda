@@ -179,13 +179,11 @@ public class FeatureCalculators {
 			case "c":
 				String filepath = test_file_paths.get(i).toString();
 				String depstring = filepath.substring(0, Math.min(filepath.length(), filepath.length() - 1)) + "dep";
-				String txtstring = filepath.substring(0, Math.min(filepath.length(), filepath.length() - 1)) + "txt";
 				String aststring = filepath.substring(0, Math.min(filepath.length(), filepath.length() - 1)) + "ast";
 				File cpp = new File(filepath);
 				File dep = new File(depstring);
-				File txt = new File(txtstring);
 				File ast = new File(aststring);
-				if(dep.exists() && txt.exists() && ast.exists() ) {
+				if(dep.exists()  && ast.exists() ) {
 				System.out.println("The dep, dot, ast, and txt files have already been created for " + filepath + " , skipping.");
 				}
 				else{
@@ -196,32 +194,28 @@ public class FeatureCalculators {
 					System.out.println("This file generates size 0 files. Deleting from data set.");
 					cpp.delete();
 					dep.delete();
-					txt.delete();
 					ast.delete();
 				}
 			break;
 			case "cpp":
 			filepath = test_file_paths.get(i).toString();
 		 	depstring = filepath.substring(0, Math.min(filepath.length(), filepath.length() - 3)) + "dep";
-			txtstring = filepath.substring(0, Math.min(filepath.length(), filepath.length() - 3)) + "txt";
 			 aststring = filepath.substring(0, Math.min(filepath.length(), filepath.length() - 3)) + "ast";
 			 cpp = new File(filepath);
 			 dep = new File(depstring);
-			 txt = new File(txtstring);
 			 ast = new File(aststring);
-			if(dep.exists() && txt.exists() && ast.exists() ){
+			if(dep.exists()  && ast.exists() ){
 			System.out.println("The dep, dot, ast, and txt files have already been created for " + filepath + " , skipping.");
 			}
 			else{
-			preprocessDataToTXTdepAST(test_file_paths.get(i).toString());
+			preprocessCDataToTXTdepAST(test_file_paths.get(i).toString());
 			}
 
 
-			if(dep.length() == 0 || txt.length() == 0 || ast.length() == 0 ){
+			if(dep.length() == 0  || ast.length() == 0 ){
 				System.out.println("This file generates size 0 files. Deleting from data set.");
 				cpp.delete();
 				dep.delete();
-				txt.delete();
 				ast.delete();
 			}
 				break;
@@ -259,11 +253,6 @@ public class FeatureCalculators {
 		 List author_ast_paths = Util.listASTFiles(dep_file.getParent());
 		 if(author_ast_paths.size()<fileNo){
 		System.out.println(author_ast_paths.size()+" ast files "+dep_file.getParent());}
-		 
-		 List author_txt_paths = Util.listTextFiles(dep_file.getParent());
-		 if(author_txt_paths.size()<fileNo){
-		System.out.println(author_txt_paths.size()+" txt files "+dep_file.getParent());}
-			 
 		 
 		 
         //	System.out.println(test_dep_paths.get(i).toString());
